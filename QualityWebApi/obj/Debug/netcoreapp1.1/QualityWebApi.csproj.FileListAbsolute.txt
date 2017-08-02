@@ -1,0 +1,16 @@
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityWebApi.deps.json
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityWebApi.runtimeconfig.json
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityWebApi.runtimeconfig.dev.json
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityWebApi.dll
+E:\NewQuality\QualityWebApi\obj\Debug\netcoreapp1.1\QualityWebApi.csprojResolveAssemblyReference.cache
+E:\NewQuality\QualityWebApi\obj\Debug\netcoreapp1.1\QualityWebApi.AssemblyInfo.cs
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityWebApi.pdb
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\swagger.json
+E:\NewQuality\QualityWebApi\obj\Debug\netcoreapp1.1\QualityWebApi.dll
+E:\NewQuality\QualityWebApi\obj\Debug\netcoreapp1.1\QualityWebApi.pdb
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\AppService.dll
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\Domain.dll
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityRepository.dll
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\AppService.pdb
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\Domain.pdb
+E:\NewQuality\QualityWebApi\bin\Debug\netcoreapp1.1\QualityRepository.pdb

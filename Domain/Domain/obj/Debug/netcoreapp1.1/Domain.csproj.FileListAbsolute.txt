@@ -1,0 +1,7 @@
+E:\NewQuality\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.deps.json
+E:\NewQuality\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.dll
+E:\NewQuality\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.pdb
+E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.AssemblyInfo.cs
+E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.dll
+E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.pdb
+E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.csprojResolveAssemblyReference.cache

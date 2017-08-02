@@ -1,0 +1,11 @@
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\AppService.deps.json
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\AppService.dll
+E:\NewQuality\AppService\obj\Debug\netcoreapp1.1\AppService.csprojResolveAssemblyReference.cache
+E:\NewQuality\AppService\obj\Debug\netcoreapp1.1\AppService.AssemblyInfo.cs
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\AppService.pdb
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\Domain.dll
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\QualityRepository.dll
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\Domain.pdb
+E:\NewQuality\AppService\bin\Debug\netcoreapp1.1\QualityRepository.pdb
+E:\NewQuality\AppService\obj\Debug\netcoreapp1.1\AppService.dll
+E:\NewQuality\AppService\obj\Debug\netcoreapp1.1\AppService.pdb
