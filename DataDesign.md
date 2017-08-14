@@ -38,6 +38,8 @@ EquipmentName|nvarchar(50)|设备名|
 EquipmentNo|nvarchar(50)|设备号|
 FeedbackMan|nvarchar(50)|反馈人
 FeedbackTime|datetime|反馈时间
+HPrint|tinyint|是否打印|0表示未打印，1表示已打印
+Status|tinyint|状态|0表示待处理，1表示已完成，2表示待审批
 ||||
 ##反馈信心拓展-质量问题
 dbo.ZL_FeedbackExProblem||||
@@ -79,6 +81,25 @@ ParentNo|nvarchar(50)|父批号|
 ChildNo|nvarchar(50)|子批号|当前批号
 |||||
 
+## 人员设置
+dbo.ZL_PersonSetup||||
+-----|-----|-----|-----|
+字段名|数据类型|说明|备注
+PersonAutoID|bigint|自动流水号|主键
+EmployeeNo|nvarchar(50)|工号|
+EmployeeName|nvarchar(50)|职工姓名|
+WorkProduct|nvarchar(50)|负责审核的工序
+WorkName|nvarchar(50)|负责的岗位|例：测试QC啊，沉积QC，沉积工艺员，部门部
+|||||
+
+## 岗位设置
+dbo.ZL_WorkSetup||||
+-----|-----|-----|-----|
+字段名|数据类型|说明|备注
+WorkAutoID|bigint|自动流水号|主键
+WorkProduct|nvarchar(50)|工序/部门|
+WorkName|nvarchar(50)|负责的岗位|例：测试QC啊，沉积QC，沉积工艺员，部门部长，经理
+|||||
 
 
 

@@ -5,3 +5,17 @@ E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.AssemblyInfo.cs
 E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.dll
 E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.pdb
 E:\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.csprojResolveAssemblyReference.cache
+E:\GhSystem\NewQuality\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.deps.json
+E:\GhSystem\NewQuality\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.dll
+E:\GhSystem\NewQuality\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.pdb
+E:\GhSystem\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.csprojResolveAssemblyReference.cache
+E:\GhSystem\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.AssemblyInfo.cs
+E:\GhSystem\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.dll
+E:\GhSystem\NewQuality\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.deps.json
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bin\Debug\netcoreapp1.1\Domain.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.AssemblyInfo.cs
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp1.1\Domain.csprojResolveAssemblyReference.cache

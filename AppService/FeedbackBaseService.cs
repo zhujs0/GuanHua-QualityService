@@ -54,5 +54,9 @@ namespace AppService
         {
             return _repository.Delete(OrderNo, tran);
         }
+        public bool UpdatePrint(string OrderNo)
+        {
+            return _repository.UpdatePrint(OrderNo);
+        }
     }
 }

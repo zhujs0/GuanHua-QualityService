@@ -19,8 +19,8 @@ namespace QualityRepository
         public bool AddFeedbackBase(FeedbackBase baseInfo,SqlTransaction tran)
         {
             string strsql = @"insert into ZL_FeedbackBase(OrderNo,WorkProcedure,BatchNo,Model,Qty,EquipmentName,
-EquipmentNo,FeedbackMan,FeedbackTime) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
-@EquipmentNo,@FeedbackMan,@FeedbackTime)";
+EquipmentNo,FeedbackMan,FeedbackTime,Status) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
+@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status)";
             int iResult = _sqlconnnect.Execute(strsql, baseInfo, tran);
             if(iResult>0)
             {
@@ -41,10 +41,10 @@ EquipmentNo,FeedbackMan,FeedbackTime) values(@OrderNo,@WorkProcedure,@BatchNo,@M
         public string GetOrderNo()
         {
             var parm = new DynamicParameters();
-            parm.Add("@Message", dbType:System.Data.DbType.String,direction:System.Data.ParameterDirection.Output,size:13);
+            parm.Add("@Message", dbType:System.Data.DbType.String,direction:System.Data.ParameterDirection.Output,size:14);
             parm.Add("@chrTableName", "FeedbackBase");
             parm.Add("@chrColumnName", "OrderNo");
-            parm.Add("@intSeqLen", 3);
+            parm.Add("@intSeqLen",4);
             parm.Add("@chrHeadMark", "FK");
             parm.Add("@chrTailMark", "");
             parm.Add("@chrInDate", "");
@@ -95,6 +95,19 @@ delete from ZL_FeedbackExHandle where OrderNo=@OrderNo;
 delete from ZL_FeedbackExProblem where OrderNo=@OrderNo
 delete from ZL_FeedbackExReason where OrderNo=@OrderNo";
             if(_sqlconnnect.Execute(strsql,new { OrderNo=OrderNo},tran)>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool UpdatePrint(string OrderNo)
+        {
+            string strsql = "update ZL_FeedbackBase set HPrint=1 where OrderNo='" + OrderNo + "'";
+            if(_sqlconnnect.Execute(strsql)>0)
             {
                 return true;
             }

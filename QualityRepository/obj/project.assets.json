@@ -7790,10 +7790,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\NewQuality\\QualityRepository\\QualityRepository.csproj",
+      "projectUniqueName": "E:\\GhSystem-冠华系统\\NewQuality-质量管理系统服务端\\QualityRepository\\QualityRepository.csproj",
       "projectName": "QualityRepository",
-      "projectPath": "E:\\NewQuality\\QualityRepository\\QualityRepository.csproj",
-      "outputPath": "E:\\NewQuality\\QualityRepository\\obj\\",
+      "projectPath": "E:\\GhSystem-冠华系统\\NewQuality-质量管理系统服务端\\QualityRepository\\QualityRepository.csproj",
+      "outputPath": "E:\\GhSystem-冠华系统\\NewQuality-质量管理系统服务端\\QualityRepository\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -7801,8 +7801,8 @@
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
-            "E:\\NewQuality\\Domain\\Domain\\Domain.csproj": {
-              "projectPath": "E:\\NewQuality\\Domain\\Domain\\Domain.csproj"
+            "E:\\GhSystem-冠华系统\\NewQuality-质量管理系统服务端\\Domain\\Domain\\Domain.csproj": {
+              "projectPath": "E:\\GhSystem-冠华系统\\NewQuality-质量管理系统服务端\\Domain\\Domain\\Domain.csproj"
             }
           }
         }

@@ -93,9 +93,10 @@ namespace QualityWebApi.Controllers
                     feedbackbase.EquipmentName = PostData.EquipmentName;
                     feedbackbase.EquipmentNo = PostData.EquipmentNo;
                     feedbackbase.FeedbackTime = Convert.ToDateTime(PostData.FeedbackTime);
+                    feedbackbase.Status = PostData.Status;
                     //FeedbackBaseService service = new FeedbackBaseService(sqlconnection);
                     //List<FeedbackBase> BaseList= service.GetOrderInfoByWhere(" where OrderNo='" + PostData.OrderNo + "'",transaction);
-                    if(BaseList!=null&&BaseList.Count>0)
+                    if (BaseList!=null&&BaseList.Count>0)
                     {
                         flag=service.Delete(PostData.OrderNo, transaction);
                     }
@@ -103,8 +104,7 @@ namespace QualityWebApi.Controllers
                     {
                         Directory.CreateDirectory(SavePath);
                     }
-
-                    if(service.AddFeedbackBase(feedbackbase, transaction))
+                    if (service.AddFeedbackBase(feedbackbase, transaction))
                     {
                         FeedbackExProblemService PService = new FeedbackExProblemService(sqlconnection);
                         FeedbackExReasonService RService = new FeedbackExReasonService(sqlconnection);
@@ -260,6 +260,7 @@ namespace QualityWebApi.Controllers
         public string HandleSuggestion { get; set; }
         public string QualityClass { get; set; }
         public string HandleNote { get; set; }
+        public int Status { get; set; }
     }
 
     public class ReasonData

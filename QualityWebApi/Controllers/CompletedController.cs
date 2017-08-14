@@ -25,7 +25,7 @@ namespace QualityWebApi.Controllers
                            .AddJsonFile("host.json", optional: true).Build().GetSection("QualitySource").Value;
         [HttpGet]
         public Object Get(string OrderNo, string WorkProcedure, string BatchNo, string Model, string EquipmentNo,
-            string FeedbackMan,string StartTime,string EndTime)
+            string FeedbackMan,string StartTime,string EndTime,string HPrint,string Status)
         {
             
             OrderNo = IsNull(OrderNo);
@@ -36,13 +36,37 @@ namespace QualityWebApi.Controllers
             FeedbackMan = IsNull(FeedbackMan);
             StartTime = IsNull(StartTime);
             EndTime = IsNull(EndTime);
+            HPrint = IsNull(HPrint);
+            Status = IsNull(Status);
             string strWhere = @" where OrderNo like '%{0}%' and WorkProcedure like
- '%{1}%' and BatchNo like '%{2}%' and Model like '%{3}%' and EquipmentNo like '%{4}%' and FeedbackMan like '%{5}%' and 
- OrderNo in (select OrderNo from ZL_FeedbackExHandle) ";
+ '%{1}%' and BatchNo like '%{2}%' and Model like '%{3}%' and EquipmentNo like '%{4}%' and FeedbackMan like '%{5}%'  ";
             strWhere=string.Format(strWhere, OrderNo, WorkProcedure, BatchNo, Model, EquipmentNo, FeedbackMan);
             if (StartTime!=""&& StartTime!=null& EndTime!=""&& EndTime!=null)
             {
                 strWhere += " and FeedbackTime between '" + StartTime + "' and '" + EndTime + " 23:59:59'";
+            }
+            if(HPrint=="0")
+            {
+                strWhere += " and (HPrint=0 or HPrint is null)";
+            }
+            else if(HPrint=="1")
+            {
+                strWhere += " and HPrint=1 ";
+            }
+            if(Status=="0")
+            {
+                //待处理
+                strWhere += " and Status=0 ";
+            }
+            else if(Status=="1")
+            {
+                //已完成
+                strWhere += " and Status=1 ";
+            }
+            else if(Status=="2")
+            {
+                //待审批
+                strWhere += " and Status=2 ";
             }
             strWhere += " order by FeedbackTime desc";
             using (SqlConnection con = new SqlConnection(_connectionString))
@@ -71,10 +95,11 @@ namespace QualityWebApi.Controllers
                             Request.EquipmentName = node.EquipmentName;
                             Request.EquipmentNo = node.EquipmentNo;
                             Request.Qty = node.Qty;
+                            Request.Status = node.Status;
                             //②原因信息
                             Request.ReasonList = BllReason.GetReasonByWhere(" where OrderNo='" + Request_OrderNo + "'");
                             //③问题
-                            List<FeedbackExProblem> ProList = BllPro.GetProblemByWhere(" where OrderNo = '" + Request_OrderNo + "'");
+                            List<FeedbackExProblem> ProList = BllPro.GetProblemByWhere("  where OrderNo = '" + Request_OrderNo + "'");
                             Request.ProblemList = GetProblemList(ProList, con);
                             //④处理
                             FeedbackExHandle feedbackExHandle = BllHandle.GetHandler(" where OrderNo='" + Request_OrderNo + "'").FirstOrDefault();
@@ -94,7 +119,7 @@ namespace QualityWebApi.Controllers
                             bool flag = true;
                             while (flag)
                             {
-                                string strsql = "select ParentNo from ZL_ParentTable where ChildNo='" + Loop + "'";
+                                string strsql = "select ParentNo from ZL_ParentTable where ChildNo='" + Loop + "' ";
                                 Parent parent = con.Query<Parent>(strsql).FirstOrDefault();
                                 if (parent != null)
                                 {
@@ -128,9 +153,40 @@ namespace QualityWebApi.Controllers
             }
         }
 
+        [HttpPost]
+        public Object UpdatePrint([FromBody]Completed_Request OrderNo)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                Completed_Reuslt result = new Completed_Reuslt();
+                try
+                {
+                    FeedbackBaseService BllBase = new FeedbackBaseService(con);
+                    if(BllBase.UpdatePrint(OrderNo.OrderNo))
+                    {
+                        result.Result = true;
+                        result.ResultMsg = "";
+                    }
+                    else
+                    {
+                        result.Result = false;
+                        result.ResultMsg = "系统输入失败";
+                    }
+                    return result;
+                }
+                catch(Exception ex)
+                {
+                    result.Result = false;
+                    result.ResultMsg = ex.Message;
+                    return result;
+                }
+            }
+        }
+
+
         public string GetJson(string BatchNo,SqlConnection con)
         {
-            string strsql = "select * from ZL_ParentTable where ParentNo='" + BatchNo + "'";
+            string strsql = "select * from ZL_ParentTable where ParentNo='" + BatchNo + "' ";
             List<Parent> parent = con.Query<Parent>(strsql).AsList();
             string strJson = "";
             //strJson = "{\"ParentNo\":\"" + BatchNo + "\",\"ChildNo\":[";
@@ -165,6 +221,7 @@ namespace QualityWebApi.Controllers
                 pro.OrderNo = node.OrderNo;
                 pro.PicturePath = node.PicturePath;
                 Code code= BllCode.GetCodeByWhere(" where CodeString='" + node.CodeString + "'").FirstOrDefault();
+                pro.code = code;
                 if(code!=null)
                 {
                     pro.QualityClass = code.QualityClass;
@@ -200,6 +257,7 @@ namespace QualityWebApi.Controllers
         public List<Problem> ProblemList { get; set; }
         public ExHandle Handler { get; set; }
         public string Relate { get; set; }//json格式,递归获取
+        public int Status { get; set; }
     }
 
     public class ExHandle
@@ -224,6 +282,7 @@ namespace QualityWebApi.Controllers
     }
     public class Completed_Reuslt
     {
-
+        public string ResultMsg { get; set; }
+        public bool Result { get; set; }
     }
 }

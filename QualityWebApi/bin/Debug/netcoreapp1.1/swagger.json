@@ -4,5 +4,11 @@
         <name>QualityWebApi</name>
     </assembly>
     <members>
+        <member name="M:QualityWebApi.Controllers.AuthorityController.Get(System.String)">
+            <summary>
+            获取用户权限
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

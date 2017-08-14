@@ -84,6 +84,7 @@ namespace QualityWebApi.Controllers
                                 string Suggestion = "";
                                 string CodeString = problem[j].CodeString;
                                 Code code = bllCode.GetCodeByWhere(" where CodeString='" + CodeString + "'").FirstOrDefault();
+                                newProblem.code = code;
                                 if (code != null)
                                 {
                                     QualityClass = code.QualityClass;
@@ -344,6 +345,7 @@ namespace QualityWebApi.Controllers
         public string FeedbackTime { get; set; }
         public List<FeedbackExReason> ReasonList { get; set; }
         public List<Problem> ProblemList { get; set; }
+       
     }
 
     public class Problem
@@ -355,5 +357,6 @@ namespace QualityWebApi.Controllers
         public string OrderNo { get; set; }
         public string Suggestion { get; set; }
         public string QualityClass { get; set; }
+        public Code code { get; set; }
     }
 }
