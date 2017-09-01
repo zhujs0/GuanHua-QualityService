@@ -18,11 +18,9 @@ namespace QualityWebApi.Controllers
     [Route("api/Completed")]
     public class CompletedController : Controller
     {
-        //        private string _connectionString = @"Data Source=USER-20170609DT\SQLEXPRESS;
-        //Initial Catalog=QualityTest;Persist Security Info=True;User ID=sa;Password=123456";
         private string _connectionString = new ConfigurationBuilder()
                            .SetBasePath(Directory.GetCurrentDirectory())
-                           .AddJsonFile("host.json", optional: true).Build().GetSection("QualitySource").Value;
+                           .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
         [HttpGet]
         public Object Get(string OrderNo, string WorkProcedure, string BatchNo, string Model, string EquipmentNo,
             string FeedbackMan,string StartTime,string EndTime,string HPrint,string Status)
@@ -53,26 +51,27 @@ namespace QualityWebApi.Controllers
             {
                 strWhere += " and HPrint=1 ";
             }
-            if(Status=="0")
+            if(Status=="T1")
             {
                 //待处理
-                strWhere += " and Status=0 ";
+                strWhere += " and Status!='P' ";
             }
-            else if(Status=="1")
+            else if(Status=="P")
             {
                 //已完成
-                strWhere += " and Status=1 ";
+                strWhere += " and Status='P' ";
             }
             else if(Status=="2")
             {
                 //待审批
-                strWhere += " and Status=2 ";
+                strWhere += " and Status!='P'";
             }
             strWhere += " order by FeedbackTime desc";
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 try
                 {
+                    BllApprovalStream Bll = new BllApprovalStream(con);
                     FeedbackBaseService BllBase = new FeedbackBaseService(con);
                     FeedbackExReasonService BllReason = new FeedbackExReasonService(con);
                     FeedbackExProblemService BllPro = new FeedbackExProblemService(con);
@@ -96,6 +95,7 @@ namespace QualityWebApi.Controllers
                             Request.EquipmentNo = node.EquipmentNo;
                             Request.Qty = node.Qty;
                             Request.Status = node.Status;
+                            
                             //②原因信息
                             Request.ReasonList = BllReason.GetReasonByWhere(" where OrderNo='" + Request_OrderNo + "'");
                             //③问题
@@ -113,6 +113,9 @@ namespace QualityWebApi.Controllers
                                 ExHandle.HandleNote = feedbackExHandle.HandleNote;
                             }
                             Request.Handler = ExHandle;
+                            Request.ApStream = Bll.GetStream(" where OrderNo='"+ node.OrderNo+"'");
+
+
                             //⑤关联
                             //循环找出最顶层的批号
                             string Loop = node.BatchNo;
@@ -239,6 +242,8 @@ namespace QualityWebApi.Controllers
             }
             return parm;
         }
+
+
         
     }
 
@@ -257,7 +262,8 @@ namespace QualityWebApi.Controllers
         public List<Problem> ProblemList { get; set; }
         public ExHandle Handler { get; set; }
         public string Relate { get; set; }//json格式,递归获取
-        public int Status { get; set; }
+        public string Status { get; set; }
+        public List<ApprovalStream> ApStream { get; set; }
     }
 
     public class ExHandle

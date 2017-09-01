@@ -19,7 +19,7 @@ namespace QualityWebApi.Controllers
         //Initial Catalog=QualityTest;Persist Security Info=True;User ID=sa;Password=123456";
         private string connectionString = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("host.json", optional: true).Build().GetSection("QualitySource").Value;
+                    .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
 
         [HttpGet]
         public Object Get()

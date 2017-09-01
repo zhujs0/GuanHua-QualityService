@@ -23,7 +23,7 @@ namespace QualityWebApi.Controllers
         {
             string _connectionString = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("host.json", optional: true).Build().GetSection("QualitySource").Value;
+                    .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
             if (CodeString != null && CodeString != "")
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))

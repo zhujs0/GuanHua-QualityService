@@ -15,6 +15,8 @@ namespace Domain
         public string EquipmentNo { get; set; }
         public string FeedbackMan { get; set; }
         public DateTime FeedbackTime { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
+
+        public string ProblemLevel { get; set; }
     }
 }

@@ -18,15 +18,7 @@ namespace QualityWebApi.Controllers
     [Route("api/Feedback")]
     public class FeedbackController : Controller
     {
-        //        private string connectionString = @"Data Source=USER-20170609DT\SQLEXPRESS;
-        //Initial Catalog=QualityTest;Persist Security Info=True;User ID=sa;Password=123456";
-        private string connectionString = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("host.json", optional: true).Build().GetSection("QualitySource").Value;
-
-        //        private string conString = @"Data Source=10.10.152.75;
-        //Initial Catalog=GHLPY;Persist Security Info=True;User ID=productUser;Password=ghtest Product";
-
+ 
         private string conString = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
@@ -70,7 +62,7 @@ namespace QualityWebApi.Controllers
         public Object AddFeedback([FromBody]FeedbackData PostData)
         {
             ResultData result = new ResultData();
-            using (SqlConnection sqlconnection = new SqlConnection(connectionString))
+            using (SqlConnection sqlconnection = new SqlConnection(conString))
             {
                 bool flag = true;
                 FeedbackBaseService service = new FeedbackBaseService(sqlconnection);
@@ -86,14 +78,23 @@ namespace QualityWebApi.Controllers
                     feedbackbase.OrderNo = PostData.OrderNo;
                     feedbackbase.Model = PostData.Model;
                     feedbackbase.FeedbackMan = PostData.FeedbackMan;
-                    feedbackbase.FeedbackTime = DateTime.Now;
+                    //feedbackbase.FeedbackTime = DateTime.Now;
                     feedbackbase.Qty = PostData.Qty;
                     feedbackbase.WorkProcedure = PostData.WorkProcedure;
                     feedbackbase.BatchNo = PostData.BatchNo;
                     feedbackbase.EquipmentName = PostData.EquipmentName;
                     feedbackbase.EquipmentNo = PostData.EquipmentNo;
-                    feedbackbase.FeedbackTime = Convert.ToDateTime(PostData.FeedbackTime);
+                    if(PostData.FeedbackTime=="")
+                    {
+                        feedbackbase.FeedbackTime = DateTime.Now;
+                    }
+                    else
+                    {
+                        feedbackbase.FeedbackTime = Convert.ToDateTime(PostData.FeedbackTime);
+                    }
+                    
                     feedbackbase.Status = PostData.Status;
+                    feedbackbase.ProblemLevel = PostData.ProblemLevel;
                     //FeedbackBaseService service = new FeedbackBaseService(sqlconnection);
                     //List<FeedbackBase> BaseList= service.GetOrderInfoByWhere(" where OrderNo='" + PostData.OrderNo + "'",transaction);
                     if (BaseList!=null&&BaseList.Count>0)
@@ -260,7 +261,8 @@ namespace QualityWebApi.Controllers
         public string HandleSuggestion { get; set; }
         public string QualityClass { get; set; }
         public string HandleNote { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
+        public string ProblemLevel { get; set; }
     }
 
     public class ReasonData

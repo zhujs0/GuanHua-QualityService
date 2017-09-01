@@ -28,5 +28,9 @@ namespace Domain
         public string ProCode { get; set; }//质量问题编码代号
         public string Present { get; set; }//比例
         public string PreCode { get; set; }//比例编码代号
+
+        public string TopClass { get; set; }
+        public string TopClassCode { get; set; }
+        public string ProblemLevel { get; set; }
     }
 }

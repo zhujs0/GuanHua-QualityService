@@ -58,5 +58,10 @@ namespace AppService
         {
             return _repository.UpdatePrint(OrderNo);
         }
+
+        public List<FeedbackBase> GetQualityOrder(long PageIndex, long PageSize, string strWhere, out long RowCount)
+        {
+            return _repository.GetQualityOrder( PageIndex,  PageSize,  strWhere, out  RowCount);
+        }
     }
 }

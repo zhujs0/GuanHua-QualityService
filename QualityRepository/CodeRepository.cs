@@ -33,8 +33,8 @@ namespace QualityRepository
         public bool AddCode(Code code)
         {
             string strSql = @"insert into dbo.ZL_QualityCode(CodeString,RoomName,RoomCode,
-            TypeName,TypeCode,Problem,ProCode,Present,PreCode,Suggestion,QualityClass) values(@CodeString,@RoomName,@RoomCode,
-            @TypeName,@TypeCode,@Problem,@ProCode,@Present,@PreCode,@Suggestion,@QualityClass)";
+            TypeName,TypeCode,Problem,ProCode,Present,PreCode,Suggestion,QualityClass,ProblemLevel,TopClass,TopClassCode) values(@CodeString,@RoomName,@RoomCode,
+            @TypeName,@TypeCode,@Problem,@ProCode,@Present,@PreCode,@Suggestion,@QualityClass,@ProblemLevel,@TopClass,@TopClassCode)";
             if(_sqlconnnect.Execute(strSql,code)>0)
             {
                 return true;

@@ -17,12 +17,9 @@ namespace QualityWebApi.Controllers
     [Route("api/Code")]
     public class CodeController : Controller
     {
-//        private string connectionString = @"Data Source=USER-20170609DT\SQLEXPRESS;
-//Initial Catalog=QualityTest;Persist Security Info=True;User ID=sa;Password=123456";
-
         private string connectionString = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("host.json", optional: true).Build().GetSection("QualitySource").Value;
+                    .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
         [HttpGet]
         public Object GetCode(string RoomName,string TypeName,string Problem)
         {

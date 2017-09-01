@@ -39,9 +39,10 @@ EquipmentNo|nvarchar(50)|设备号|
 FeedbackMan|nvarchar(50)|反馈人
 FeedbackTime|datetime|反馈时间
 HPrint|tinyint|是否打印|0表示未打印，1表示已打印
-Status|tinyint|状态|0表示待处理，1表示已完成，2表示待审批
+Status|tinyint|状态|0表示待审批，1表示已完成
+ProblemLevel|nvarchar(50)|审批流程代号
 ||||
-##反馈信心拓展-质量问题
+##反馈信息拓展-质量问题
 dbo.ZL_FeedbackExProblem||||
 -----|-----|-----|-----|
 字段名|数据类型|说明|备注
@@ -51,7 +52,7 @@ ProblemDetails|nvarchar(1000)|质量问题详细描述|
 PicturePath|nvarchar(1000)|质量问题图片url|存储多张图片url时，以逗号隔开
 OrderNo|nvarchar(50)|反馈单号|
 ||||
-## 反馈信心拓展-产生原因
+## 反馈信息拓展-产生原因
 dbo.ZL_FeedbackExReason||||
 -----|-----|-----|-----|
 字段名|数据类型|说明|备注
@@ -99,6 +100,20 @@ dbo.ZL_WorkSetup||||
 WorkAutoID|bigint|自动流水号|主键
 WorkProduct|nvarchar(50)|工序/部门|
 WorkName|nvarchar(50)|负责的岗位|例：测试QC啊，沉积QC，沉积工艺员，部门部长，经理
+|||||
+
+
+## 审批
+dbo.ZL_ApprovalStream||||
+-----|-----|-----|-----|
+字段名|数据类型|说明|备注
+AutoID|bigint|自动流水号|主键
+ManPosition|nvarchar(50)|职务(对应审批流程)|例：测试QC啊，沉积QC，沉积工艺员，部门部长，经理
+Man|nvarchar(50)|审批人|
+HandlingSuggestion|nvarchar(1000)|处理意见
+ApprovalDate|datetime|审批时间
+ToClass|nvarchar(50)|判类
+OrderNo|nvarchar(50)|反馈单单号
 |||||
 
 

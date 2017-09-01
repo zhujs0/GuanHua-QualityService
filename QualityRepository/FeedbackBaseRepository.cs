@@ -19,8 +19,8 @@ namespace QualityRepository
         public bool AddFeedbackBase(FeedbackBase baseInfo,SqlTransaction tran)
         {
             string strsql = @"insert into ZL_FeedbackBase(OrderNo,WorkProcedure,BatchNo,Model,Qty,EquipmentName,
-EquipmentNo,FeedbackMan,FeedbackTime,Status) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
-@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status)";
+EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
+@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status,@ProblemLevel)";
             int iResult = _sqlconnnect.Execute(strsql, baseInfo, tran);
             if(iResult>0)
             {
@@ -92,8 +92,9 @@ where OrderNo=@OrderNo";
             string strsql = @"
 delete from ZL_FeedbackBase where OrderNo=@OrderNo;
 delete from ZL_FeedbackExHandle where OrderNo=@OrderNo;
-delete from ZL_FeedbackExProblem where OrderNo=@OrderNo
-delete from ZL_FeedbackExReason where OrderNo=@OrderNo";
+delete from ZL_FeedbackExProblem where OrderNo=@OrderNo;
+delete from ZL_FeedbackExReason where OrderNo=@OrderNo;
+delete from ZL_ApprovalStream where OrderNo=@OrderNo";
             if(_sqlconnnect.Execute(strsql,new { OrderNo=OrderNo},tran)>0)
             {
                 return true;
@@ -116,6 +117,16 @@ delete from ZL_FeedbackExReason where OrderNo=@OrderNo";
                 return false;
             }
         }
-        
+
+        public List<FeedbackBase> GetQualityOrder(long PageIndex, long PageSize,string strWhere,out long RowCount)
+        {
+            RowCount = 0;
+            string strSql = @"select * from (select * , ROW_NUMBER() OVER (ORDER BY FeedbackTime desc) AS RowNumber from 
+ZL_FeedbackBase " + strWhere + ") as t where RowNumber > @PageSize*(@PageIndex-1) and RowNumber<=@PageSize*@PageIndex";
+            string RowSql = @"select * from ZL_FeedbackBase " + strWhere;
+            RowCount = _sqlconnnect.Query<FeedbackBase>(RowSql).AsList().Count;
+            return _sqlconnnect.Query<FeedbackBase>(strSql, new { PageIndex= PageIndex, PageSize= PageSize }).AsList();
+        }
+
     }
 }
