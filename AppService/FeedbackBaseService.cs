@@ -20,6 +20,11 @@ namespace AppService
             return _repository.AddFeedbackBase(baseInfo, tran);
         }
 
+        public bool Insert(FeedbackBase baseInfo, SqlTransaction tran)
+        {
+            return _repository.Insert(baseInfo, tran);
+        }
+
         public List<tp_carCraft> GetInfo(string chrBatchID)
         {
             return _repository.GetInfo(chrBatchID);

@@ -21,23 +21,27 @@ namespace QualityWebApi.Controllers
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
         [HttpGet]
-        public Object GetCode(string RoomName,string TypeName,string Problem)
+        public Object GetCode(string RoomName,string TypeName,string Problem,string TopClass)
         {
             using (var sqlconnection = new SqlConnection(connectionString))
             {
                 CodeService repository = new CodeService(sqlconnection);
-                string strsql = "";
+                string strsql = " where 1=1 ";
                 if(RoomName!=""&& RoomName!=null)
                 {
-                    strsql = " where RoomName='" + RoomName + "' ";
-                    if(TypeName!=""&&TypeName!=null)
-                    {
-                        strsql += " and TypeName='" + TypeName + "'";
-                    }
-                    if (Problem != ""&&Problem!=null)
-                    {
-                        strsql += " and Problem='" + Problem + "'";
-                    }
+                    strsql += " and RoomName='" + RoomName + "' ";
+                }
+                if (TypeName != "" && TypeName != null)
+                {
+                    strsql += " and TypeName='" + TypeName + "'";
+                }
+                if (Problem != "" && Problem != null)
+                {
+                    strsql += " and Problem='" + Problem + "'";
+                }
+                if (TopClass != "" && TopClass != null)
+                {
+                    strsql += " and TopClass='" + TopClass + "'";
                 }
                 return repository.GetCodeByWhere(strsql);
             }

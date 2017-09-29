@@ -84,7 +84,8 @@ namespace QualityWebApi.Controllers
                     feedbackbase.BatchNo = PostData.BatchNo;
                     feedbackbase.EquipmentName = PostData.EquipmentName;
                     feedbackbase.EquipmentNo = PostData.EquipmentNo;
-                    if(PostData.FeedbackTime=="")
+                    feedbackbase.ProductClass = PostData.ProductClass;
+                    if (PostData.FeedbackTime=="")
                     {
                         feedbackbase.FeedbackTime = DateTime.Now;
                     }
@@ -109,6 +110,7 @@ namespace QualityWebApi.Controllers
                     {
                         FeedbackExProblemService PService = new FeedbackExProblemService(sqlconnection);
                         FeedbackExReasonService RService = new FeedbackExReasonService(sqlconnection);
+                        BllProductCard BllCard = new BllProductCard(sqlconnection);
                         FeedbackExProblem Problem = new FeedbackExProblem();
                         FeedbackExReason Reason = new FeedbackExReason();
                         foreach (var list in PostData.ReasonData)
@@ -179,9 +181,18 @@ namespace QualityWebApi.Controllers
                                 }
                             }
                         }
-                        FeedbackExHandleService BllHandler = new FeedbackExHandleService(sqlconnection);
+                        foreach (var list in PostData.CardList)
+                        {
+                            list.FKOrderNo = PostData.OrderNo;
+                            if (!BllCard.InsertCard(list,transaction))
+                            {
+                                flag = false;
+                                break;
+                            }
+                        }
                         if(PostData.IfQC)
                         {
+                            FeedbackExHandleService BllHandler = new FeedbackExHandleService(sqlconnection);
                             FeedbackExHandle Handler = new FeedbackExHandle();
                             Handler.HandleMan = PostData.HandleMan;
                             Handler.HandleNote = PostData.HandleNote;
@@ -263,7 +274,11 @@ namespace QualityWebApi.Controllers
         public string HandleNote { get; set; }
         public string Status { get; set; }
         public string ProblemLevel { get; set; }
+        public List<ProductCard.CardInfo> CardList { get; set; }
+        public string ProductClass { get; set; }
     }
+
+    
 
     public class ReasonData
     {

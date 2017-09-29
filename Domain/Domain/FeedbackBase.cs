@@ -18,5 +18,11 @@ namespace Domain
         public string Status { get; set; }
 
         public string ProblemLevel { get; set; }
+        public string ProductClass { get; set; }
+
+        public int OrderType { get; set; }
+
+        public string Measure { get; set; }
+        public string Report { get; set; }
     }
 }

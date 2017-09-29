@@ -1,0 +1,7 @@
+﻿{
+  "urls": "http://192.168.1.33:8000",
+  "QualitySource": "Data Source=10.10.152.75;Initial Catalog=GHLPY;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
+  "GHLPYSource": "Data Source=10.10.152.75;Initial Catalog=GHLPY;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
+  "KQSource": "Data Source=10.10.152.75;Initial Catalog=KQ;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
+  "ghSource": "Data Source=10.10.152.113;Initial Catalog=gh;Persist Security Info=True;User ID=productUser;Password=ghtest Product"
+}

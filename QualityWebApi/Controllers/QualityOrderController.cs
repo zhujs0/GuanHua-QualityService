@@ -79,6 +79,7 @@ namespace QualityWebApi.Controllers
                     FeedbackBaseService BllBase = new FeedbackBaseService(con);
                     FeedbackExReasonService BllReason = new FeedbackExReasonService(con);
                     FeedbackExProblemService BllPro = new FeedbackExProblemService(con);
+                    BllProductCard BllCard = new BllProductCard(con);
                     List<ReturnData> RequestList = new List<ReturnData>();
                     long RowCount = 0, PageCount = 0;
                     List<FeedbackBase> BaseList = BllBase.GetQualityOrder(PageIndex,PageSize,strWhere,out RowCount);
@@ -98,6 +99,7 @@ namespace QualityWebApi.Controllers
                         Request.EquipmentNo = node.EquipmentNo;
                         Request.Qty = node.Qty;
                         Request.Status = node.Status;
+                        Request.ProductClass = node.ProductClass;
                         //②原因信息
                         Request.ReasonList = BllReason.GetReasonByWhere(" where OrderNo='" + Request_OrderNo + "'");
                         //③问题
@@ -105,6 +107,8 @@ namespace QualityWebApi.Controllers
                         Request.ProblemList = GetProblemList(ProList, con);
                         //④处理
                         Request.ApStream = Bll.GetStream(" where OrderNo='" + node.OrderNo + "'");
+                        //⑤客户列表
+                        Request.CardList = BllCard.GetCard(" where FKOrderNo='" + node.OrderNo + "'");
                         Request.RowCount = RowCount;
                         RequestList.Add(Request);
                     }
@@ -164,6 +168,8 @@ namespace QualityWebApi.Controllers
             public string Status { get; set; }
             public List<ApprovalStream> ApStream { get; set; }
             public long RowCount { get; set; }
+            public List<ProductCard.CardInfo> CardList { get; set; }
+            public string ProductClass { get; set; }
         }
     }
 

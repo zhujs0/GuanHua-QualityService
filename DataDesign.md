@@ -41,6 +41,7 @@ FeedbackTime|datetime|反馈时间
 HPrint|tinyint|是否打印|0表示未打印，1表示已打印
 Status|tinyint|状态|0表示待审批，1表示已完成
 ProblemLevel|nvarchar(50)|审批流程代号
+ProductClass|nvarchar(50)|产品类别
 ||||
 ##反馈信息拓展-质量问题
 dbo.ZL_FeedbackExProblem||||
@@ -115,6 +116,25 @@ ApprovalDate|datetime|审批时间
 ToClass|nvarchar(50)|判类
 OrderNo|nvarchar(50)|反馈单单号
 |||||
+
+## 反馈单-备货卡/发货卡
+dbo.ZL_Card||||
+-----|-----|-----|-----|
+字段名|数据类型|说明|备注
+CardAutoID|bigint|自动流水号|主键
+FKOrderNo|nvarchar(50)|反馈单单号)|
+CardNo|nvarchar(50)|卡号|
+OrderNo|nvarchar(50)|订单单号
+Customer|nvarchar(50)|客户名称
+TempClass|nvarchar(50)|备货/客户类别
+TempModel|nvarchar(50)|备货型号规格
+ProductModel|nvarchar(50)|产品型号规格|
+ProductClass|nvarchar(50)|产品类别
+Amount|decimal(18, 2)|数量
+TempAmount|decimal(18, 2)|备货数量
+BatchNo|nvarchar(50)|批号
+|||||
+
 
 
 

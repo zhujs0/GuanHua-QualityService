@@ -19,10 +19,26 @@ namespace QualityRepository
         public bool AddFeedbackBase(FeedbackBase baseInfo,SqlTransaction tran)
         {
             string strsql = @"insert into ZL_FeedbackBase(OrderNo,WorkProcedure,BatchNo,Model,Qty,EquipmentName,
-EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
-@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status,@ProblemLevel)";
+EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel,ProductClass) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
+@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status,@ProblemLevel,@ProductClass)";
             int iResult = _sqlconnnect.Execute(strsql, baseInfo, tran);
             if(iResult>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool Insert(FeedbackBase baseInfo, SqlTransaction tran)
+        {
+            string strsql = @"insert into ZL_FeedbackBase(OrderNo,WorkProcedure,BatchNo,Model,Qty,EquipmentName,
+EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel,ProductClass,OrderType,Measure,Report) values(@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
+@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status,@ProblemLevel,@ProductClass,@OrderType,@Measure,@Report)";
+            int iResult = _sqlconnnect.Execute(strsql, baseInfo, tran);
+            if (iResult > 0)
             {
                 return true;
             }
@@ -42,10 +58,10 @@ EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel) values(@OrderNo,@WorkP
         {
             var parm = new DynamicParameters();
             parm.Add("@Message", dbType:System.Data.DbType.String,direction:System.Data.ParameterDirection.Output,size:14);
-            parm.Add("@chrTableName", "FeedbackBase");
+            parm.Add("@chrTableName", "ZL_FeedbackBase");
             parm.Add("@chrColumnName", "OrderNo");
             parm.Add("@intSeqLen",4);
-            parm.Add("@chrHeadMark", "FK");
+            parm.Add("@chrHeadMark", "");
             parm.Add("@chrTailMark", "");
             parm.Add("@chrInDate", "");
             _sqlconnnect.Execute("pBas_GetNextTableID", parm, commandType: System.Data.CommandType.StoredProcedure);
@@ -94,7 +110,8 @@ delete from ZL_FeedbackBase where OrderNo=@OrderNo;
 delete from ZL_FeedbackExHandle where OrderNo=@OrderNo;
 delete from ZL_FeedbackExProblem where OrderNo=@OrderNo;
 delete from ZL_FeedbackExReason where OrderNo=@OrderNo;
-delete from ZL_ApprovalStream where OrderNo=@OrderNo";
+delete from ZL_ApprovalStream where OrderNo=@OrderNo;
+delete from ZL_Card where FKOrderNo=@OrderNo";
             if(_sqlconnnect.Execute(strsql,new { OrderNo=OrderNo},tran)>0)
             {
                 return true;

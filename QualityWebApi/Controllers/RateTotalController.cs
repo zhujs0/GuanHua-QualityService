@@ -20,9 +20,10 @@ namespace QualityWebApi.Controllers
                    .SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("host.json", optional: true).Build().GetSection("ghSource").Value;
         [HttpGet]
-        public Object Get(string ActionType,string ProductSize,string Porcelain,string Model,
+        public Object Get(string ActionType,string ProductSize,string Porcelain,string chrType,
             string Time,string Material)
         {
+            string Model = chrType;
             using (SqlConnection con = new SqlConnection(_ConString))
             {
                 try
@@ -187,6 +188,9 @@ namespace QualityWebApi.Controllers
                         //string[] chr = new string[]{"Y", "B" ,"N"};
                         if(IsGet)
                         {
+                           
+
+
                             //①入库数正品
                             RateTotal.PutCount StockList = GetPut(ProductSize, Material, Porcelain,
                                 Model, StartTime+" 00:00:00", EndTime+" 23:59:59", true, con);
@@ -208,6 +212,40 @@ namespace QualityWebApi.Controllers
                             decimal MonthCheckProdCount = MonthList != null ?
                                 MonthList.LiuTongAmount + MonthList.MonthCheckAmount + MonthList.ZhengpinAmount : 0;
 
+
+                            #region=====如果选择时间为2017-09；上月盘点数确定=======
+                            if (Date.Year==2017&&Date.Month==9)
+                            {
+                                if(Material=="Y")
+                                {
+                                    MonthCheckProdCount = 1558380000;
+                                }
+                                else if(Material == "B")
+                                {
+                                    MonthCheckProdCount = 6368310000;
+                                }
+                                else if(Material=="N")
+                                {
+                                    MonthCheckProdCount = 4847410000;
+                                }
+                            }
+                            else if(Date.Year == 2017 && Date.Month == 8)
+                            {
+                                if (Material == "Y")
+                                {
+                                    MonthCheckProdCount = 2241360000;
+                                }
+                                else if (Material == "B")
+                                {
+                                    MonthCheckProdCount = 5617150000;
+                                }
+                                else if (Material == "N")
+                                {
+                                    MonthCheckProdCount = 4227370000;
+                                }
+                            }
+                            #endregion
+
                             //⑤本月半成品数
                             decimal LTKunCun = 0;
                             if (flag)
@@ -216,6 +254,25 @@ namespace QualityWebApi.Controllers
                                 RateTotal.MonthCheckProd temp = GetMonthCheckProd(ProductSize, Material, Porcelain, Model,
                                 Time, con, null);
                                 LTKunCun = temp != null ? temp.ZhengpinAmount + temp.MonthCheckAmount + temp.LiuTongAmount : 0;
+
+                                #region=====如果选择时间为2017-08；本月半成品数确定=======
+                                if (Date.Year == 2017 && Date.Month == 8)
+                                {
+                                    if (Material == "Y")
+                                    {
+                                        LTKunCun = 1558380000;
+                                    }
+                                    else if (Material == "B")
+                                    {
+                                        LTKunCun = 6368310000;
+                                    }
+                                    else if (Material == "N")
+                                    {
+                                        LTKunCun = 4847410000;
+                                    }
+                                }
+                                #endregion
+
                             }
                             else
                             {
@@ -313,7 +370,7 @@ namespace QualityWebApi.Controllers
             }
             if (Model != null)
             {
-                strWhere += "and chrSpec ='" + Model + "'";
+                strWhere += "and chrSpec like '%" + Model + "%'";
             }
             if(flag)
             {
@@ -361,7 +418,7 @@ namespace QualityWebApi.Controllers
             }
             if (Model != null)
             {
-                strWhere += "and ChrItemID ='" + Model + "'";
+                strWhere += "and ChrItemID like '%" + Model + "%'";
             }
             if (StartTime != null && EndTime != null)
             {
@@ -412,8 +469,8 @@ namespace QualityWebApi.Controllers
             }
             if (Model != null)
             {
-                strWhere += "and chrType ='" + Model + "'";
-                strWhere2 += " and ChrItemID='" + Model + "'";
+                strWhere += "and chrType like '%" + Model + "%'";
+                strWhere2 += " and ChrItemID like '%" + Model + "%'";
             }
             if (Time != null )
             {
@@ -460,7 +517,7 @@ namespace QualityWebApi.Controllers
             }
             if (Model != null)
             {
-                strWhere += "and ChrItemID ='" + Model + "'";
+                strWhere += "and ChrItemID  like '%" + Model + "%'";
             }
             BllRateTotal Bll = new BllRateTotal(con);
             return Bll.GetdTempStoreBalance(strWhere);
@@ -485,7 +542,7 @@ namespace QualityWebApi.Controllers
             }
             if (Model != null)
             {
-                strWhere += " and substring(t2.chrChangeItemid,3,len(t2.chrChangeItemid)-2)='"+Model+"'";
+                strWhere += " and substring(t2.chrChangeItemid,3,len(t2.chrChangeItemid)-2) like '%"+Model+"%'";
             }
             if(StartTime!=null&&EndTime!=null)
             {

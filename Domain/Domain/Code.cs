@@ -14,7 +14,7 @@ namespace Domain
         private string _qualityCodeString;
         public string CodeString {
             get {
-                return _qualityCodeString ?? RoomCode + TypeCode + ProCode+ PreCode;
+                return _qualityCodeString ?? TopClassCode+ RoomCode + TypeCode + ProCode+ PreCode;
             }
             set {
                 _qualityCodeString = value;

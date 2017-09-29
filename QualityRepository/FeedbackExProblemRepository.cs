@@ -18,8 +18,10 @@ namespace QualityRepository
 
         public bool AddProblem(FeedbackExProblem Problem,SqlTransaction tran)
         {
-            string strsql = @"insert into ZL_FeedbackExProblem (CodeString,ProblemDetails,PicturePath,OrderNo) 
- values(@CodeString,@ProblemDetails,@PicturePath,@OrderNo)";
+            string strsql = @"insert into ZL_FeedbackExProblem (CodeString,ProblemDetails,PicturePath,OrderNo,Suggestion,RoomName,
+TypeName,Problem,Present,TopClass,QualityClass,ProblemLevel) 
+ values(@CodeString,@ProblemDetails,@PicturePath,@OrderNo,@Suggestion,@RoomName,
+@TypeName,@Problem,@Present,@TopClass,@QualityClass,@ProblemLevel)";
             int iResult = _sqlconnnect.Execute(strsql, Problem, tran);
             if (iResult > 0)
             {
