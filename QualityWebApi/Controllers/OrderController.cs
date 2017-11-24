@@ -35,7 +35,7 @@ namespace QualityWebApi.Controllers
               .SetBasePath(Directory.GetCurrentDirectory())
               .AddJsonFile("host.json", optional: true).Build().GetSection("WorkFlowTask_Wait_StepID").Value;
 
-        //push     
+          
         [HttpGet]
         public Object Get(string ActionType, long PageIndex, long PageSize, string OrderNo,
             string WorkProcedure, string BatchNo, string Model, string EquipmentNo,
