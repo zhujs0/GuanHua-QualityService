@@ -10,6 +10,10 @@ using Domain;
 using System.Data.SqlClient;
 using System.Data;
 using AppService;
+using QualityWebApi.Common;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace QualityWebApi.Controllers
 {
@@ -21,15 +25,33 @@ namespace QualityWebApi.Controllers
                    .SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
 
+        private string GHConString = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("host.json", optional: true).Build().GetSection("ghSource").Value;
+        private string WaitConfirmStepID = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("host.json", optional: true).Build().GetSection("WorkFlowTask_Confirm_StepID").Value;
+        private string WaitHandleStepID = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("host.json", optional: true).Build().GetSection("WorkFlowTask_Wait_StepID").Value;
+
         [HttpGet]
         public Object Get(string ActionType, long PageIndex, long PageSize, string OrderNo,
             string WorkProcedure, string BatchNo, string Model, string EquipmentNo,
-            string FeedbackMan, string StartTime, string EndTime, string Status, int OrderType)
+            string FeedbackMan, string StartTime, string EndTime, string Status, int OrderType,string EmployeeID)
         {
             if (ActionType == "GetOrderInfo")
             {
                 return GetOrderInfo(PageIndex, PageSize, OrderNo,WorkProcedure, BatchNo, Model, EquipmentNo,
                                     FeedbackMan, StartTime, EndTime, Status, OrderType);
+            }
+            else if (ActionType=="GetAmount")
+            {
+                return GetAmount(WorkProcedure, BatchNo);
+            }
+            else if (ActionType== "GetWaitConfirm")
+            {
+                return GetWaitConfirm(EmployeeID, WorkProcedure);
             }
             else
             {
@@ -37,6 +59,67 @@ namespace QualityWebApi.Controllers
             }
            
         }
+
+
+
+        /// <summary>
+        /// 获取待反馈人确认订单
+        /// </summary>
+        /// <param name="EmployeeID"></param>
+        /// <param name="WorkProcedure"></param>
+        /// <returns></returns>
+        public Object GetWaitConfirm(string EmployeeID,string WorkProcedure)
+        {
+
+            //EmployeeID = "00095";
+            try
+            {
+
+                string strWhere = @" where b.Status=0 and b.StepID='" + WaitConfirmStepID + "'and EmployeeID = '" + EmployeeID
+                    + "' order by FeedbackTime desc";
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    FeedbackBaseService Bll = new FeedbackBaseService(con);
+                    return Bll.GetWaitConfirm(strWhere);
+                }
+            }catch(Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取某批号在某工序的数量
+        /// </summary>
+        /// <param name="WorkProcedure">工序</param>
+        /// <param name="BatchNo">批号</param>
+        /// <returns></returns>
+        public Object GetAmount(string WorkProcedure,string BatchNo)
+        {
+            decimal Amount = 0;
+            WorkProcedure = WorkProcedure != null ? WorkProcedure : "";
+            WorkProcedure = WorkProcedure.Replace(" ", "").Trim().Replace("车间", "");
+            BatchNo= BatchNo.Replace(" ", "").Trim();
+            using (SqlConnection con = new SqlConnection(GHConString))
+            {
+                FeedbackBaseService BllBase = new FeedbackBaseService(con);
+                RateTotal.tm_dTempStoreIO obj = new RateTotal.tm_dTempStoreIO();
+                if (WorkProcedure.Contains("流延") || WorkProcedure.Contains("丝印") || WorkProcedure.Contains("新工艺"))
+                {
+                    //chrBatchID,chrType,intChipAmount
+                    List<tp_carCraft> carCraftList = new List<tp_carCraft>();
+                    carCraftList = BllBase.GetInfo(BatchNo);
+
+                    obj.decSumQty = carCraftList != null ? Convert.ToDecimal(carCraftList.FirstOrDefault().intChipAmount) : 0;
+                }
+                else
+                {
+                    obj = BllBase.GetTempStoreAmount(BatchNo, WorkProcedure);
+                }
+                return obj;
+            }
+        }
+
 
         public Object GetOrderInfo( long PageIndex, long PageSize, string OrderNo,
             string WorkProcedure, string BatchNo, string Model, string EquipmentNo,
@@ -51,31 +134,40 @@ namespace QualityWebApi.Controllers
             StartTime = StartTime != null ? StartTime : "";
             EndTime = EndTime != null ? EndTime : "";
             Status = Status != null ? Status : "";
-            string strWhere = @" where OrderNo like '%{0}%' and WorkProcedure like
+            string strWhere = @"   OrderNo like '%{0}%' and WorkProcedure like
  '%{1}%' and BatchNo like '%{2}%' and Model like '%{3}%' and EquipmentNo like '%{4}%' and FeedbackMan like '%{5}%'  ";
             strWhere = string.Format(strWhere, OrderNo, WorkProcedure, BatchNo, Model, EquipmentNo, FeedbackMan);
             if (StartTime != "" & EndTime != "")
             {
                 strWhere += " and FeedbackTime between '" + StartTime + "' and '" + EndTime + " 23:59:59'";
             }
-            if (Status == "T1")
+            /*  
+             *  Status表示订单状态，该值存在以下几种情况： Null:全部，E：待处理；W:待确认;T:处理中;P:已完成;B:已退单;
+             *  W状态下：b.Status=0&&b.StepID=私有公共变量WaitConfirmStepID
+             *  E状态下: b.Status=0&&b.StepID=私有公共变量WaitHandleStepID，即QC所在步骤StepID
+             *  T状态下: b.Status=0
+             *  P状态下：b.Status=2
+             *  B状态下：b.Status=3
+            */
+            switch(Status)
             {
-                //待处理
-                strWhere += " and Status!='P' ";
-            }
-            else if (Status == "P")
-            {
-                //已完成
-                strWhere += " and Status='P' ";
-            }
-            else if (Status == "B")
-            {
-                //待审批
-                strWhere += " and Status='B'";
-            }
-            else if(Status=="W")
-            {
-                strWhere += " and Status=''";
+                case "E":
+                    strWhere += @" and (b.Status=0 and b.StepID='" + WaitHandleStepID + "')";
+                    break;
+                case "W":
+                    strWhere += @" and (b.Status=0 and b.StepID='" + WaitConfirmStepID + "')";
+                    break;
+                case "T":
+                    strWhere += @" and (b.Status=0)";
+                    break;
+                case "P":
+                    strWhere += @" and (b.Status=2)";
+                    break;
+                case "B":
+                    strWhere += @" and (b.Status=3)";
+                    break;
+                default:
+                    break;
             }
             strWhere += " and OrderType=" + OrderType+ "  ";
             using (SqlConnection con = new SqlConnection(conString))
@@ -88,7 +180,7 @@ namespace QualityWebApi.Controllers
                     FeedbackExProblemService BllPro = new FeedbackExProblemService(con);
                     BllProductCard BllCard = new BllProductCard(con);
                     long RowCount = 0, PageCount = 0;
-                    List<FeedbackBase> BaseList = BllBase.GetQualityOrder(PageIndex, PageSize, strWhere, out RowCount);
+                    List<FeedbackBase> BaseList = BllBase.GetOrderByWorkFlowTaskOnPage(PageIndex, PageSize, strWhere, out RowCount);
                     List<OrderInfo> OrderList = new List<OrderInfo>();
                     if (BaseList != null && BaseList.Count > 0)
                     {
@@ -109,7 +201,17 @@ namespace QualityWebApi.Controllers
                             Item.ProblemLevel = node.ProblemLevel;
                             Item.Report = node.Report;
                             Item.Measure = node.Measure;
-                            Item.Status= node.Status;
+                            //Item.Status= node.Status;
+                            Item.Status = node.ProvalStatus.ToString();
+                            Item.EmployeeID = node.EmployeeID;
+                            Item.StepID = node.StepID;
+                            Item.StepName = node.StepName;
+                            Item.ID = (node.ID).ToString();
+                            Item.PrevStatus = node.PrevStatus;
+                            Item.IsControl = node.IsControl;
+
+
+
                             //②质量问题
                             List<FeedbackExProblem> Problem = BllPro.GetProblemByWhere(" where OrderNo='" + node.OrderNo + "'");
                             List<OrderProblem> OrderProblem = new List<OrderProblem>();
@@ -142,7 +244,7 @@ namespace QualityWebApi.Controllers
                             }
                             Item.ReasonData = OrderReason;
                             //④客户信息
-                            Item.CardList= BllCard.GetCard(" where FKOrderNo='" + node.OrderNo + "'");
+                            Item.CardList= BllCard.GetCard(" where FKOrderNo='" + node.OrderNo + "' and CardNo <>''");
                             //⑤反馈单处理意见
                             Item.ApprovalStream = BllStream.GetStream(" where OrderNo='" + node.OrderNo + "' and StreamType=0");
                             if(OrderType==1)
@@ -187,7 +289,10 @@ namespace QualityWebApi.Controllers
             //验证是否已存在该单号的单据，存在删除，再添加，不存在直接添加
             bool Delete = false;//false：不存在，true：存在
             string OrderNo = PostData.OrderNo!=null? PostData.OrderNo:"";
+            OrderNo = OrderNo.Trim();
             FeedbackBaseService BllBase = new FeedbackBaseService(con);
+            Guid NewID = BllBase.GetNewID();
+
             FeedbackBase Base = BllBase.GetOrderInfoByWhere(" where OrderNo='" + OrderNo + "'").FirstOrDefault();
             if (Base != null)
             {
@@ -205,37 +310,101 @@ namespace QualityWebApi.Controllers
                         return result;
                     }
                 }
+
+
+
+
                 //定义保存的数据
+
+                string EmployeeID = PostData.EmployeeID;
+
                 FeedbackBase Domain = new FeedbackBase();
+                Domain.ID = NewID;
                 Domain.OrderNo = OrderNo;//单号，控制表以KZ开头，反馈单已FK开头
                 Domain.BatchNo = PostData.BatchNo;
                 Domain.Model = PostData.Model;
                 Domain.Qty = PostData.Qty;
-                Domain.Status = "T1";//默认T1顺序审批人
+                Domain.Status = "0";//默认T1顺序审批人
                 Domain.WorkProcedure = PostData.WorkProcedure;
                 Domain.EquipmentName = PostData.EquipmentName;
                 Domain.EquipmentNo = PostData.EquipmentNo;
                 Domain.FeedbackMan = PostData.FeedbackMan;
                 Domain.ProblemLevel = PostData.ProblemLevel;//审批流程代号
-                if(PostData.FeedbackTime==null|| PostData.FeedbackTime=="")
+                
+
+                if (PostData.FeedbackTime==null|| PostData.FeedbackTime=="")
                 {
                     PostData.FeedbackTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                 }
                 Domain.FeedbackTime = Convert.ToDateTime(PostData.FeedbackTime);
                 Domain.ProductClass = PostData.ProductClass;
-                if(OrderNo.StartsWith("FK"))
+                int OrderType = 0;
+                int FlowTempId = 1;
+                if (OrderNo.StartsWith("FK"))
                 {
-                    Domain.OrderType = 0;
+                    FlowTempId = 0;
+                    OrderType = 0;
                 }
                 else
                 {
-                    Domain.OrderType = 1;
+                    FlowTempId = 1;
+                    OrderType = 1;
                 }
+                Domain.OrderType = OrderType;
                 Domain.Measure = PostData.Measure != null ? PostData.Measure : "";
                 Domain.Report = PostData.Report != null ? PostData.Report : "";
+                Domain.EmployeeID = EmployeeID;
                 List <ProductCard.CardInfo> CardList = PostData.CardList;
                 List<OrderReason> ReasonData = PostData.ReasonData;
                 List<OrderProblem> ProblemData= PostData.ProblemData;
+
+                #region======Post请求：录入审批系统=====
+                GeneralMethod Method = new GeneralMethod();
+                string title = "";
+                if (FlowTempId == 1)
+                {
+                    title = "质量控制流程(" + OrderNo + ")";
+                }
+                else
+                {
+                    title = "质量反馈流程(" + OrderNo + ")";
+                }
+
+                string urls = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("host.json", optional: true).Build().GetSection("ApprovalPostAddress").Value;
+                using (HttpClient Client = new HttpClient())
+                {
+                    var values = new List<KeyValuePair<string, string>>();
+                    values.Add(new KeyValuePair<string, string>("Title", title));
+                    values.Add(new KeyValuePair<string, string>("InstanceID", NewID.ToString()));
+                    values.Add(new KeyValuePair<string, string>("FlowID", "D3BBCCBF-8968-4833-8A0F-CE5B19B718E2"));
+                    values.Add(new KeyValuePair<string, string>("Account", EmployeeID));
+                    values.Add(new KeyValuePair<string, string>("WorkProcedure", PostData.WorkProcedure));
+                    var content = new FormUrlEncodedContent(values);
+                    var response = Client.PostAsync(urls, content);
+                    response.Wait();
+
+                    HttpResponseMessage resp = response.Result;
+
+                    var res2 = resp.Content.ReadAsStringAsync();
+                    res2.Wait();
+                    string Message = res2.Result;
+                    JObject Robj = JObject.Parse(Message);
+                    if (Robj["result"].ToString() == "1")
+                    {
+                        Domain.TechnologistMembers = Robj["msg"].ToString();
+                    }
+                    else
+                    {
+                        Exception ex = new Exception(Robj["msg"] + "(远端接入失败)");
+                        throw ex;
+                    }
+                }
+                #endregion
+
+
+
                 if (BllBase.Insert(Domain, tran))
                 {
                     FeedbackExProblemService BllProblem = new FeedbackExProblemService(con);
@@ -255,7 +424,21 @@ namespace QualityWebApi.Controllers
                         Problem.Suggestion = ProblemData[i].suggestion;
                         Problem.QualityClass = ProblemData[i].qualityClass;
                         Problem.ProblemLevel = ProblemData[i].problemLevel;
-                        if(!BllProblem.AddProblem(Problem,tran))
+                        if(ProblemData[i].suggestion!=""&& ProblemData[i].suggestion!=null&& ProblemData[i].suggestion.Contains("suggestion"))
+                        {
+                            JArray JList = JArray.Parse(ProblemData[i].suggestion);
+                            foreach (var node in JList)
+                            {
+                                string suggestion = node["suggestion"].ToString();
+                                if(!BllBase.InsertOrderSuggestion(tran, suggestion, OrderNo, ProblemData[i].codeString))
+                                {
+                                    Exception ex = new Exception("提交失败，原因：保存质量问题编码处理意见失败");
+                                    throw ex;
+                                }
+                            }
+                        }
+
+                        if (!BllProblem.AddProblem(Problem,tran))
                         {
                             Exception ex = new Exception("提交失败，原因：质量问题提交异常");
                             throw ex;
@@ -282,6 +465,7 @@ namespace QualityWebApi.Controllers
                             throw ex;
                         }
                     }
+
                     tran.Commit();
                     result.Result = true;
                     result.ErrMsg = "提交成功";
@@ -290,12 +474,16 @@ namespace QualityWebApi.Controllers
                 {
                     result.Result = false;
                     result.ErrMsg = "提交失败，原因：基础信息提交异常";
+                    BllBase.DeleteWorkFlowTask(NewID.ToString(), tran);
+                    tran.Commit();
                 }
                 return result;
             }
             catch (Exception ex)
             {
                 tran.Rollback();
+                BllBase.DeleteWorkFlowTask(NewID.ToString(), tran);
+                tran.Commit();
                 result.Result = false;
                 result.ErrMsg = ex.Message;
                 return result;
@@ -328,6 +516,12 @@ namespace QualityWebApi.Controllers
             public long RowCount { get; set; }
             public List<ApprovalStream> ControlStream { get; set; }
             public string Status { get; set; }
+            public string EmployeeID { get; set; }
+            public string StepID { get; set; }
+            public string StepName { get; set; }
+            public string ID { get; set; }
+            public int PrevStatus { get; set; }
+            public string IsControl { get; set; }
         }
 
         public class OrderProblem

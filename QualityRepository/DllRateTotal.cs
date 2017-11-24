@@ -68,8 +68,8 @@ namespace QualityRepository
             string strSql = @"select sum(decquantity) as decquantity from tm_dTempStoreIO t1 
                left join tm_dTempStoreIODtl t2 on t1.chrissrptid = t2.chrissrptid  
                left join  tp_carCraft t3 on t2.chrlot=t3.chrBatchID 
-               where ( chrcurprocessid = '层压' )  
-            and chrinouttype = 'sia' and t1.chrstate = 'F' " + strWhere;
+               where ( RTRIM(LTRIM(ChrPreProcessId)) like '丝印'  or (( RTRIM(LTRIM(ChrPreProcessId)) like '%新工艺%' ) and ( RTRIM(LTRIM(ChrCurProcessId)) like '层压' ) ))
+            and chrinouttype = 'sia' and (t1.chrstate = 'F' or t1.chrstate = 'P') " + strWhere;
          //   string strSql = @"select  ChrItemID,decquantity ,datInOutDate,chrLot from tm_dTempStoreIO t1 
 	  	     //   left join tm_dTempStoreIODtl t2 on t1.chrissrptid = t2.chrissrptid  
 	  	     //   left join  tp_carCraft t3 on t2.chrlot=t3.chrBatchID 
@@ -96,14 +96,14 @@ select @MonthCheckAmount=sum(isnull(decCheckNum,0)) from tp_proMonthCheckProd jo
         SELECT  @LiuTongAmount=sum(isnull(decQtySeparPass,0)) FROM ZL_PreparedProduct t1 
 	    --LEFT JOIN tm_dProcedure t14 ON t1.chrProcessID=t14.chrProcedure  
 	    --left join tp_carcraft t2 on t1.chrLot = t2.chrBatchID   
-	    WHERE chrParentProcId  = '中转仓' And (chrProcessID like '%Ni电极烧端'   
-	    or chrProcessID like'%起筛巴') " + strWhere2
+	    WHERE chrParentProcId  like '%中转仓%' And (chrProcessID like '%Ni电极烧端%'   
+	    or chrProcessID like'%起筛巴%') " + strWhere2
          + @"SELECT   @ZhengpinAmount=sum(isnull(DecQtyNal,0))
 	    FROM ZL_PreparedProduct t1 
 	    --LEFT JOIN tm_dProcedure t14 ON t1.chrProcessID=t14.chrProcedure  
 	    --left join tp_carcraft t2 on t1.chrLot = t2.chrBatchID   
-	    WHERE chrParentProcId  = '中转仓' 
-	    And ( chrProcessID like'%测试'  or chrProcessID like'%编带'or chrProcessID like'%沉积') " + strWhere2
+	    WHERE chrParentProcId  like '%中转仓%' 
+	    And ( chrProcessID like'%测试%'  or chrProcessID like'%编带%'or chrProcessID like'%沉积%') " + strWhere2
          + " select @LiuTongAmount as LiuTongAmount,@ZhengpinAmount as ZhengpinAmount,@MonthCheckAmount as  MonthCheckAmount";
             return _con.Query<RateTotal.MonthCheckProd>(strSql).AsList().FirstOrDefault();
             //        string strSql = @" select  chrBatchID,chrType,decCheckNum,datDate from tp_proMonthCheckProd join tp_proMonthCheckProds 

@@ -76,5 +76,16 @@ insert into dbo.ZL_QualityCode(CodeString,RoomName,RoomCode,
         }
 
 
+        public List<Code> GetCodeByWhereOnPage(string strWhere,int PageIndex,int PageSize,out int RowCount)
+        {
+            RowCount = 0;
+            string strSql = @"select * from (select *, ROW_NUMBER() OVER (ORDER BY CodeID desc) AS RowNumber 
+from dbo.ZL_QualityCode "+ strWhere + ") as t where t.RowNumber>@PageSize*(@PageIndex-1) and RowNumber<=@PageSize*@PageIndex";
+            string GetCountSql = @"select 1 from ZL_QualityCode " + strWhere;
+            RowCount = _sqlconnnect.Query<Code>(GetCountSql).AsList().Count;
+            return _sqlconnnect.Query<Code>(strSql,new { PageIndex = PageIndex ,PageSize=PageSize}).AsList();
+        }
+
+
     }
 }

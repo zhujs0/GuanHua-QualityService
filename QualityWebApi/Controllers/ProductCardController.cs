@@ -46,6 +46,27 @@ namespace QualityWebApi.Controllers
                         strWhere = " where chrId='" + CardNo + "' ";
                     }
                 }
+                //else if(ActionType=="FeedBackToControl")
+                //{
+                //    if (CardNo.StartsWith("BH"))
+                //    {
+                //        strWhere = " where chrOrderId='" + CardNo + "' "
+                //            + "' and chritemid like '%" + ProductModel
+                //                + "' and chrLot='" + BatchNo + "'";
+                //    }
+                //    else if (CardNo.StartsWith("ZD"))
+                //    {
+                //        strWhere = " where chrID='" + CardNo + "' "
+                //            + "' and chrGHXH1 like '%" + ProductModel
+                //                + "' and chrLOT='" + BatchNo + "' ";
+                //    }
+                //    else if (CardNo.StartsWith("LB"))
+                //    {
+                //        strWhere = " where chrId='" + CardNo + "' "
+                //            + "' and chrItemId='" + ProductModel
+                //            + "' and  chrLot='" + BatchNo + "'";
+                //    }
+                //}
                 else
                 {
                     if (CardNo.StartsWith("BH"))

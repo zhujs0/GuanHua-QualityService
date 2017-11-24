@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Microsoft.Net.Http.Headers;
+using QualityWebApi.Common;
 
 namespace QualityWebApi.Controllers
 {
@@ -17,10 +18,11 @@ namespace QualityWebApi.Controllers
         [HttpPost]
         public string Post()
         {
+
             var files = HttpContext.Request.Form.Files;
-            if(files.Count>0)
+            if (files.Count > 0)
             {
-                for(int i=0;i<files.Count;i++)
+                for (int i = 0; i < files.Count; i++)
                 {
                     var file = HttpContext.Request.Form.Files[0];
 
@@ -38,9 +40,20 @@ namespace QualityWebApi.Controllers
                     }
                 }
             }
-            
+
             return "http://192.168.1.33:8000/ProblemPicture/t0176ee418172932841.jpg";
-                
+
+        }
+
+        public string Get(string parm)
+        {
+
+
+            GeneralMethod options = new GeneralMethod();
+            string Header = "{ \"typ\": \"JWT\", \"alg\": \"HS256\"}";
+            string Payload = "{\"iss\": \"ninghao.net\",\"exp\": \"1438955445\",\"name\": \"wanghao\",\"admin\": true}";
+            string test = options.CreateTokenByJWT(Header, Payload, "secret");
+            return test;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace QualityWebApi.Controllers
 {

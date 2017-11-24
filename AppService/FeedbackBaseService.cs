@@ -59,6 +59,11 @@ namespace AppService
         {
             return _repository.Delete(OrderNo, tran);
         }
+
+        public bool DeleteWorkFlowTask(string ID, SqlTransaction tran)
+        {
+            return _repository.DeleteWorkFlowTask(ID, tran);
+        }
         public bool UpdatePrint(string OrderNo)
         {
             return _repository.UpdatePrint(OrderNo);
@@ -67,6 +72,36 @@ namespace AppService
         public List<FeedbackBase> GetQualityOrder(long PageIndex, long PageSize, string strWhere, out long RowCount)
         {
             return _repository.GetQualityOrder( PageIndex,  PageSize,  strWhere, out  RowCount);
+        }
+
+        public List<FeedbackBase> GetOrderByWorkFlowTaskOnPage(long PageIndex, long PageSize, string strWhere, out long RowCount)
+        {
+            return _repository.GetOrderByWorkFlowTaskOnPage(PageIndex, PageSize, strWhere, out RowCount);
+        }
+
+        public List<FeedbackBase> GetWaitConfirm(string strWhere)
+        {
+            return _repository.GetWaitConfirm(strWhere);
+        }
+
+        public Guid GetNewID()
+        {
+            return _repository.GetNewID();
+        }
+
+        public bool InsertOrderSuggestion(SqlTransaction tran, string Suggestion, string OrderNo, string CodeString)
+        {
+            return _repository.InsertOrderSuggestion( tran,  Suggestion,  OrderNo,  CodeString);
+        }
+
+        public RateTotal.tm_dTempStoreIO GetTempStoreAmount(string BatchNo, string WorkProcedure)
+        {
+            return _repository.GetTempStoreAmount(BatchNo, WorkProcedure);
+        }
+
+        public bool UpdateStatus(string ID, string StepID, int Status)
+        {
+            return _repository.UpdateStatus(ID, StepID, Status);
         }
     }
 }

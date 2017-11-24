@@ -529,12 +529,14 @@ namespace QualityWebApi.Controllers
             string strWhere = "  ";
             if (Material != null)
             {
-                strWhere += @"And ((t2.DecInQnty <> 0 And dbo.GetDepotIdByType(t2.chrItemID) ='"+Material+"')"
+               strWhere += @"And ((t2.DecInQnty <> 0 And dbo.GetDepotIdByType(t2.chrItemID) ='"+Material+"')"
  +" Or(Isnull(t2.decChangeInQnty, 0) <> 0 And dbo.GetDepotIdByType(t2.chrChangeItemID) ='"+ Material + "')) ";
             }
             if (ProductSize != null)
             {
-                strWhere += " and left(substring(t1.chrItemid,3,len(t1.chrItemid)-2),4)='"+ProductSize+"' ";
+                strWhere += " and left(substring(t1.chrItemid,3,len(t1.chrItemid)-2),4)='"+ProductSize+"' "
+                    + " and left(substring(t1.chrChangeItemid,3,len(t1.chrChangeItemid)-2),4)='"+ ProductSize + "' ";
+
             }
             if (Porcelain != null)
             {
@@ -542,15 +544,16 @@ namespace QualityWebApi.Controllers
             }
             if (Model != null)
             {
-                strWhere += " and substring(t2.chrChangeItemid,3,len(t2.chrChangeItemid)-2) like '%"+Model+"%'";
+                strWhere += " and substring(t2.chrChangeItemid,3,len(t2.chrChangeItemid)-2) like '%"+Model+"%'"
+                    + " and substring(t2.chritemid,3,len(t2.chritemid)-3) like '%"+Model+"%' ";
             }
             if(StartTime!=null&&EndTime!=null)
             {
-                strWhere += " and t2.datInOutStock Between '" + StartTime + "' And '" + EndTime + " '";
+                strWhere += " and t2.datInOutStock Between '" + StartTime + "' And '" + EndTime + " ' ";
             }
             if(Type!=null)
             {
-                strWhere += " and   t1.chrItemid Like '" + Type + "%'";
+                strWhere += " and   t1.chrItemid Like '" + Type + "%' ";
             }
 
             BllRateTotal Bll = new BllRateTotal(con);

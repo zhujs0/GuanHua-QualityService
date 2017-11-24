@@ -4,10 +4,42 @@
         <name>QualityWebApi</name>
     </assembly>
     <members>
+        <member name="M:QualityWebApi.Common.GeneralMethod.CreateTokenByJWT(System.String,System.String,System.String)">
+            <summary>
+            jwt生成token
+            </summary>
+            <param name="Header">头部：格式:{ "typ": "JWT", "alg": "HS256"}</param>
+            <param name="Payload">带标准格式的内容</param>
+            <param name="SecretKey">秘钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:QualityWebApi.Common.GeneralMethod.EnBase64(System.String)">
+            <summary>
+            base64编码
+            </summary>
+            <param name="payload"></param>
+            <returns></returns>
+        </member>
         <member name="M:QualityWebApi.Controllers.AuthorityController.Get(System.String)">
             <summary>
             获取用户权限
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QualityWebApi.Controllers.OrderController.GetWaitConfirm(System.String,System.String)">
+            <summary>
+            获取待反馈人确认订单
+            </summary>
+            <param name="EmployeeID"></param>
+            <param name="WorkProcedure"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QualityWebApi.Controllers.OrderController.GetAmount(System.String,System.String)">
+            <summary>
+            获取某批号在某工序的数量
+            </summary>
+            <param name="WorkProcedure">工序</param>
+            <param name="BatchNo">批号</param>
             <returns></returns>
         </member>
     </members>

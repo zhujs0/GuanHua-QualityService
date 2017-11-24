@@ -47,14 +47,30 @@ namespace QualityWebApi.Controllers
         }
 
         [HttpGet]
-       public Object GetBatchInfo(string chrBatchID)
+       public Object GetBatchInfo(string chrBatchID,string WorkProcedure)
         {
             ResultData result = new ResultData();
+            WorkProcedure = WorkProcedure != null ? WorkProcedure : "";
+            WorkProcedure = WorkProcedure.Replace(" ", "").Trim().Replace("车间", "");
             using (SqlConnection sqlconnection = new SqlConnection(conString))
             {
-                tp_carCraft BatchInfo = new tp_carCraft();
                 FeedbackBaseService service = new FeedbackBaseService(sqlconnection);
-                return service.GetInfo(chrBatchID);
+                List<tp_carCraft> carCraftList = service.GetInfo(chrBatchID);
+                if (WorkProcedure.Contains("流延") || WorkProcedure.Contains("丝印") || WorkProcedure.Contains("新工艺"))
+                {
+                    List<tp_carCraft> decObj = service.GetInfo(chrBatchID);
+                    if (carCraftList.Count>0)
+                    {
+                        carCraftList[0].intChipAmount = decObj != null ? decObj.FirstOrDefault().intChipAmount :"0";
+                    }
+                }
+                return carCraftList;
+
+                #region =====交接工序的批号相关信息=====
+                //string WorkProcedure = "";
+
+
+                #endregion
             }
         }
 

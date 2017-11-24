@@ -35,5 +35,10 @@ namespace AppService
             return _repository.DelCode(CodeString,transaction);
         }
 
+        public List<Code> GetCodeByWhereOnPage(string strWhere, int PageIndex, int PageSize, out int RowCount)
+        {
+            return _repository.GetCodeByWhereOnPage(strWhere, PageIndex, PageSize, out RowCount);
+        }
+
     }
 }

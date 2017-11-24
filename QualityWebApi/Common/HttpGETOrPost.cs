@@ -20,23 +20,32 @@ namespace QualityWebApi.Common
         }
         public string HttpPost(string Data)
         {
-            
-            HttpWebRequest req = WebRequest.CreateHttp(new Uri(_Urls));
-            req.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
-            req.Method = "POST";
-            req.ContinueTimeout = 60000;
-            byte[] postData = Encoding.UTF8.GetBytes(Data);
-            Stream reqStream = req.GetRequestStreamAsync().Result;
-            reqStream.Write(postData, 0, postData.Length);
-            reqStream.Dispose();
-            var rsp = (HttpWebResponse)req.GetResponseAsync().Result;
-            Stream stream = rsp.GetResponseStream();
-            StreamReader reader = new StreamReader(stream, Encoding.UTF8);
-            string result= reader.ReadToEnd();
-            stream.Dispose();
-            reader.Dispose();
-            rsp.Dispose();
-            return result;
+            try
+            {
+                HttpWebRequest req = WebRequest.CreateHttp(new Uri(_Urls));
+                req.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
+                req.Method = "POST";
+                req.ContinueTimeout = 60000;
+                byte[] postData = Encoding.UTF8.GetBytes(Data);
+                Stream reqStream = req.GetRequestStreamAsync().Result;
+                reqStream.Write(postData, 0, postData.Length);
+                reqStream.Dispose();
+                var rsp = (HttpWebResponse)req.GetResponseAsync().Result;
+                Stream stream = rsp.GetResponseStream();
+                StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                string result = reader.ReadToEnd();
+                stream.Dispose();
+                reader.Dispose();
+                rsp.Dispose();
+                return result;
+                //可能存在的缺陷：捕获异常时，没关闭IO流
+            }
+            catch (Exception ex)
+            {
+                //GC.Collect();
+                throw ex;
+            }
+          
 
         }
 

@@ -60,5 +60,10 @@ namespace Domain
         {
             public decimal decChangeInQnty { get; set; }
         }
+
+        public class tm_dTempStoreIO
+        {
+            public decimal decSumQty { get; set; }
+        }
     }
 }

@@ -24,5 +24,18 @@ namespace Domain
 
         public string Measure { get; set; }
         public string Report { get; set; }
+
+        public Guid ID { get; set; }
+
+        public int ProvalStatus { get; set; }
+
+        public string TechnologistMembers { get; set; }
+        public string EmployeeID { get; set; }
+        public string StepID { get; set; }
+        public string StepName { get; set; }
+        public int Sort { get; set; }
+        public int PrevStatus { get; set; }
+
+        public string IsControl { get; set; }
     }
 }

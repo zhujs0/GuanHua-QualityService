@@ -114,17 +114,19 @@ namespace QualityWebApi
             #endregion
 
 
-
+            //访问静态资源
             app.UseFileServer(new FileServerOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ProblemPicture")),
                 RequestPath = new PathString("/ProblemPicture")
                 //EnableDirectoryBrowsing = true
             });
+            //生成web api测试页面
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "质量管理Api");
             });
+            //允许所有跨域访问
             app.UseCors(configurePolicy =>
             {
                 configurePolicy.AllowAnyOrigin();
