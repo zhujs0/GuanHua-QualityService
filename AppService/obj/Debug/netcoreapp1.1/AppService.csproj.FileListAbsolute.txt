@@ -31,3 +31,5 @@ E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\D
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Debug\netcoreapp1.1\AppService.AssemblyInfo.cs
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Debug\netcoreapp1.1\AppService.dll
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Debug\netcoreapp1.1\AppService.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Debug\netcoreapp1.1\AppService.csproj.CoreCompileInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Debug\netcoreapp1.1\AppService.AssemblyInfoInputs.cache

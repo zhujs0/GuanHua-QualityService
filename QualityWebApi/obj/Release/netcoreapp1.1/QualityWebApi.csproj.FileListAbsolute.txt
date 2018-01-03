@@ -1,15 +1,4 @@
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityWebApi.deps.json
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityWebApi.runtimeconfig.json
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityWebApi.runtimeconfig.dev.json
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityWebApi.dll
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityWebApi.pdb
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\AppService.dll
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\Domain.dll
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityRepository.dll
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\AppService.pdb
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\Domain.pdb
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\bin\Release\netcoreapp1.1\QualityRepository.pdb
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\obj\Release\netcoreapp1.1\QualityWebApi.csprojResolveAssemblyReference.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\obj\Release\netcoreapp1.1\QualityWebApi.csproj.CoreCompileInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\obj\Release\netcoreapp1.1\QualityWebApi.AssemblyInfoInputs.cache
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\obj\Release\netcoreapp1.1\QualityWebApi.AssemblyInfo.cs
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\obj\Release\netcoreapp1.1\QualityWebApi.dll
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityWebApi\obj\Release\netcoreapp1.1\QualityWebApi.pdb

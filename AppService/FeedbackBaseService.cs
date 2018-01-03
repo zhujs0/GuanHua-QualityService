@@ -64,6 +64,11 @@ namespace AppService
         {
             return _repository.DeleteWorkFlowTask(ID, tran);
         }
+        public bool DeleteWorkFlowTask(string ID)
+        {
+            return _repository.DeleteWorkFlowTask(ID);
+        }
+
         public bool UpdatePrint(string OrderNo)
         {
             return _repository.UpdatePrint(OrderNo);

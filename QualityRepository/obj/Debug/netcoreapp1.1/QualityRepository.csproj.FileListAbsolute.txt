@@ -25,3 +25,5 @@ E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityRepositor
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityRepository\obj\Debug\netcoreapp1.1\QualityRepository.AssemblyInfo.cs
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityRepository\obj\Debug\netcoreapp1.1\QualityRepository.dll
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityRepository\obj\Debug\netcoreapp1.1\QualityRepository.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityRepository\obj\Debug\netcoreapp1.1\QualityRepository.csproj.CoreCompileInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\QualityRepository\obj\Debug\netcoreapp1.1\QualityRepository.AssemblyInfoInputs.cache

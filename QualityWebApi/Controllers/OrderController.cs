@@ -25,6 +25,10 @@ namespace QualityWebApi.Controllers
                    .SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
 
+        private string OAconString = new ConfigurationBuilder()
+                  .SetBasePath(Directory.GetCurrentDirectory())
+                  .AddJsonFile("host.json", optional: true).Build().GetSection("OASource").Value;
+
         private string GHConString = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
                .AddJsonFile("host.json", optional: true).Build().GetSection("ghSource").Value;
@@ -135,8 +139,8 @@ namespace QualityWebApi.Controllers
             StartTime = StartTime != null ? StartTime : "";
             EndTime = EndTime != null ? EndTime : "";
             Status = Status != null ? Status : "";
-            string strWhere = @"   OrderNo like '%{0}%' and WorkProcedure like
- '%{1}%' and BatchNo like '%{2}%' and Model like '%{3}%' and EquipmentNo like '%{4}%' and FeedbackMan like '%{5}%'  ";
+            string strWhere = @"   OrderNo like '%{0}%' and isnull(WorkProcedure,'') like
+ '%{1}%' and isnull(BatchNo,'') like '%{2}%' and isnull(Model,'') like '%{3}%' and  isnull(EquipmentNo,'') like '%{4}%' and isnull(FeedbackMan,'') like '%{5}%'  ";
             strWhere = string.Format(strWhere, OrderNo, WorkProcedure, BatchNo, Model, EquipmentNo, FeedbackMan);
             if (StartTime != "" & EndTime != "")
             {
@@ -210,6 +214,7 @@ namespace QualityWebApi.Controllers
                             Item.ID = (node.ID).ToString();
                             Item.PrevStatus = node.PrevStatus;
                             Item.IsControl = node.IsControl;
+                            Item.ImageList = node.ImageList;
 
 
 
@@ -304,21 +309,16 @@ namespace QualityWebApi.Controllers
             {
                 if (Delete)
                 {
-                    if(!BllBase.Delete(OrderNo, tran))//删除旧单据
+                    if (!BllBase.Delete(OrderNo, tran))//删除旧单据
                     {
                         result.ErrMsg = "提交失败，原因：删除原始信息异常";
                         result.Result = false;
                         return result;
                     }
                 }
-
-
-
-
                 //定义保存的数据
 
                 string EmployeeID = PostData.EmployeeID;
-
                 FeedbackBase Domain = new FeedbackBase();
                 Domain.ID = NewID;
                 Domain.OrderNo = OrderNo;//单号，控制表以KZ开头，反馈单已FK开头
@@ -331,7 +331,8 @@ namespace QualityWebApi.Controllers
                 Domain.EquipmentNo = PostData.EquipmentNo;
                 Domain.FeedbackMan = PostData.FeedbackMan;
                 Domain.ProblemLevel = PostData.ProblemLevel;//审批流程代号
-                
+                Domain.ImageList = PostData.ImageList;
+                Domain.ImageHtml = PostData.ImageHtml;
 
                 if (PostData.FeedbackTime==null|| PostData.FeedbackTime=="")
                 {
@@ -360,7 +361,7 @@ namespace QualityWebApi.Controllers
                 List<OrderProblem> ProblemData= PostData.ProblemData;
 
                 #region======Post请求：录入审批系统=====
-                GeneralMethod Method = new GeneralMethod();
+                //GeneralMethod Method = new GeneralMethod();
                 string title = "";
                 if (FlowTempId == 1)
                 {
@@ -483,8 +484,15 @@ namespace QualityWebApi.Controllers
             catch (Exception ex)
             {
                 tran.Rollback();
-                BllBase.DeleteWorkFlowTask(NewID.ToString(), tran);
-                tran.Commit();
+                tran.Dispose();
+                try
+                {
+                    BllBase.DeleteWorkFlowTask(NewID.ToString());
+                }
+                catch (Exception ex2)
+                {
+
+                }
                 result.Result = false;
                 result.ErrMsg = ex.Message;
                 return result;
@@ -523,6 +531,9 @@ namespace QualityWebApi.Controllers
             public string ID { get; set; }
             public int PrevStatus { get; set; }
             public string IsControl { get; set; }
+            public string ImageList { get; set; }
+
+            public string ImageHtml { get; set; }
         }
 
         public class OrderProblem

@@ -36,9 +36,11 @@ EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel,ProductClass) values(@O
         {
             string strsql = @"
 insert into ZL_FeedbackBase(ID,OrderNo,WorkProcedure,BatchNo,Model,Qty,EquipmentName,
-EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel,ProductClass,OrderType,Measure,Report,TechnologistMembers,EmployeeID) 
+EquipmentNo,FeedbackMan,FeedbackTime,Status,ProblemLevel,ProductClass,OrderType,Measure,Report,
+TechnologistMembers,EmployeeID,ImageList,ImageHtml) 
 values(@ID,@OrderNo,@WorkProcedure,@BatchNo,@Model,@Qty,@EquipmentName,
-@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status,@ProblemLevel,@ProductClass,@OrderType,@Measure,@Report,@TechnologistMembers,@EmployeeID)";
+@EquipmentNo,@FeedbackMan,@FeedbackTime,@Status,@ProblemLevel,@ProductClass,
+@OrderType,@Measure,@Report,@TechnologistMembers,@EmployeeID,@ImageList,@ImageHtml)";
             int iResult = _sqlconnnect.Execute(strsql, baseInfo, tran);
             
             if (iResult > 0)
@@ -140,6 +142,20 @@ delete from GHOA.dbo.WorkFlowTask where Title like '%" + OrderNo.Trim() + "%'";
             }
         }
 
+        public bool DeleteWorkFlowTask(string ID)
+        {
+            string strSql = @"delete from GHOA.dbo.WorkFlowTask where InstanceID=@ID";
+            if (_sqlconnnect.Execute(strSql, new { ID = ID }) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         public bool UpdatePrint(string OrderNo)
         {
             string strsql = "update ZL_FeedbackBase set HPrint=1 where OrderNo='" + OrderNo + "'";
@@ -215,8 +231,8 @@ OUTER APPLY GHOA.dbo.Fun_GetFlowStatusName(ID) b "+ strWhere;
 
         public RateTotal.tm_dTempStoreIO GetTempStoreAmount(string BatchNo,string WorkProcedure)
         {
-            string strSql = @" select  isnull(SUM(decSumQty),0) as decSumQty  from tm_dTempStoreIO  join tm_dTempStoreIODtl on tm_dTempStoreIO.ChrIssRptID =tm_dTempStoreIODtl.ChrIssRptID
- where  ChrCurProcessId like '%"+ WorkProcedure + "%' and  RTRIM(chrLot) ='"+ BatchNo + "'";
+            string strSql = @"  select SUM(DecQtyNal) from Tm_dTempStoreBalance where 1=1 and 
+RTRIM(chrLot)='"+ BatchNo + "' and chrParentProcId like '%"+ WorkProcedure + "%'";
             return _sqlconnnect.Query<RateTotal.tm_dTempStoreIO>(strSql).AsList().FirstOrDefault();
         }
 

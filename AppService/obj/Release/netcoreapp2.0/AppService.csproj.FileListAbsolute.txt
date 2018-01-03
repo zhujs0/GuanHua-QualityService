@@ -1,0 +1,13 @@
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\AppService.deps.json
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\AppService.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\AppService.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\Domain.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\QualityRepository.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\Domain.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\bin\Release\netcoreapp2.0\QualityRepository.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Release\netcoreapp2.0\AppService.csprojResolveAssemblyReference.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Release\netcoreapp2.0\AppService.csproj.CoreCompileInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Release\netcoreapp2.0\AppService.AssemblyInfoInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Release\netcoreapp2.0\AppService.AssemblyInfo.cs
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Release\netcoreapp2.0\AppService.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\AppService\obj\Release\netcoreapp2.0\AppService.pdb

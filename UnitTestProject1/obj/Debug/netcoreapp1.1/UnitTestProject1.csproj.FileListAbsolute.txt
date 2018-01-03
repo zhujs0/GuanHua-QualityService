@@ -16,3 +16,5 @@ E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\UnitTestProject1
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\UnitTestProject1\obj\Debug\netcoreapp1.1\UnitTestProject1.AssemblyInfo.cs
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\UnitTestProject1\obj\Debug\netcoreapp1.1\UnitTestProject1.dll
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\UnitTestProject1\obj\Debug\netcoreapp1.1\UnitTestProject1.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\UnitTestProject1\bin\Debug\netcoreapp1.1\QualityWebApi.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\UnitTestProject1\bin\Debug\netcoreapp1.1\QualityWebApi.pdb

@@ -35,8 +35,10 @@ namespace QualityRepository
             string strSql = @"
 delete from dbo.ZL_QualityCode where CodeID=@CodeID;
 insert into dbo.ZL_QualityCode(CodeString,RoomName,RoomCode,
-            TypeName,TypeCode,Problem,ProCode,Present,PreCode,Suggestion,QualityClass,ProblemLevel,TopClass,TopClassCode) values(@CodeString,@RoomName,@RoomCode,
-            @TypeName,@TypeCode,@Problem,@ProCode,@Present,@PreCode,@Suggestion,@QualityClass,@ProblemLevel,@TopClass,@TopClassCode)";
+TypeName,TypeCode,Problem,ProCode,Present,PreCode,Suggestion,QualityClass,ProblemLevel,TopClass,
+TopClassCode,EmployeeID,Employee,CreateTime) values(@CodeString,@RoomName,@RoomCode,
+@TypeName,@TypeCode,@Problem,@ProCode,@Present,@PreCode,@Suggestion,@QualityClass,@ProblemLevel,
+@TopClass,@TopClassCode,@EmployeeID,@Employee,GetDate())";
             if(_sqlconnnect.Execute(strSql,code)>0)
             {
                 return true;

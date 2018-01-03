@@ -3,10 +3,11 @@
   "QualitySource": "Data Source=10.10.152.75;Initial Catalog=GHLPY;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
   "GHLPYSource": "Data Source=10.10.152.75;Initial Catalog=GHLPY;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
   "KQSource": "Data Source=10.10.152.75;Initial Catalog=KQ;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
-  "ghSource": "Data Source=10.10.152.113;Initial Catalog=gh;Persist Security Info=True;User ID=productUser;Password=ghtest Product",
+  "ghSource": "Data Source=10.10.152.113;Initial Catalog=gh;Persist Security Info=True;User ID=productUser;Password=ghtest Product;Connect Timeout=500",
   "ApprovalPostAddress": "http://192.168.1.31/Common/FlowHandler.ashx",
   "Post_FlowID": "D3BBCCBF-8968-4833-8A0F-CE5B19B718E2",
   "WorkFlowTask_Confirm_StepID": "6A1BD036-F78B-4BC1-9D46-B534DA0C1F45",
-  "WorkFlowTask_Wait_StepID": "B070FA20-119E-4AFB-878D-371D9A670F7A",//QC
-  "WorkFlowTask_Edit_StepID": "CABAF17E-1073-4F96-86D0-A0DD0C2009FB"
+  "WorkFlowTask_Wait_StepID": "B070FA20-119E-4AFB-878D-371D9A670F7A", //QC
+  "WorkFlowTask_Edit_StepID": "CABAF17E-1073-4F96-86D0-A0DD0C2009FB",
+  "OASource": "Data Source=10.10.152.75;Initial Catalog=GHOA;Persist Security Info=True;User ID=productUser;Password=ghtest Product"
 }

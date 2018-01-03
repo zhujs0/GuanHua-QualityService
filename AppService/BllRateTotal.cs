@@ -43,5 +43,42 @@ namespace AppService
         {
             return Dll.GetZhuanZhengpin(strWhere);
         }
+
+        public decimal Get_WarehouseStorage(string strWhere)
+        {
+            return Dll.Get_WarehouseStorage(strWhere);
+        }
+
+        public decimal Get_Feeding(string strWhere)
+        {
+            return Dll.Get_Feeding(strWhere);
+        }
+
+        public decimal Get_CirculationStock(string strWhere)
+        {
+            return Dll.Get_CirculationStock(strWhere);
+        }
+
+        public decimal Get_OutInOfStorage(string strWhere)
+        {
+            return Dll.Get_OutInOfStorage(strWhere);
+        }
+
+        public bool InsertToStorage(string CreateTime, SqlTransaction tran)
+        {
+            return Dll.InsertToStorage(CreateTime, tran);
+        }
+        public bool InsertToOutInOfStorage(string CreateTime, SqlTransaction tran)
+        {
+            return Dll.InsertToOutInOfStorage(CreateTime, tran);
+        }
+        public bool InsertToFeeding(string CreateTime, SqlTransaction tran)
+        {
+            return Dll.InsertToFeeding(CreateTime, tran);
+        }
+        public bool InsertToCirculationStock(string CreateTime, SqlTransaction tran)
+        {
+            return Dll.InsertToCirculationStock(CreateTime, tran);
+        }
     }
 }

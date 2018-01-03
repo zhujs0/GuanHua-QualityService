@@ -29,7 +29,7 @@ namespace QualityWebApi.Controllers
                     using (SqlConnection con = new SqlConnection(_connectionString))
                     {
                         CodeService BllCode = new CodeService(con);
-                        return BllCode.GetCodeByWhere("  where CodeString like '%" + CodeString + "%'");
+                        return BllCode.GetCodeByWhere("  where CodeString like '%" + CodeString.ToUpper() + "%'");
                     }
                 }
                 else

@@ -22,6 +22,9 @@ namespace QualityWebApi.Controllers
         private string conString = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("host.json", optional: true).Build().GetSection("GHLPYSource").Value;
+        private string GHConString = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("host.json", optional: true).Build().GetSection("ghSource").Value;
 
         private string SavePath = Directory.GetCurrentDirectory()+"/ProblemPicture";
         [HttpPut]
@@ -49,28 +52,39 @@ namespace QualityWebApi.Controllers
         [HttpGet]
        public Object GetBatchInfo(string chrBatchID,string WorkProcedure)
         {
+            
             ResultData result = new ResultData();
             WorkProcedure = WorkProcedure != null ? WorkProcedure : "";
             WorkProcedure = WorkProcedure.Replace(" ", "").Trim().Replace("车间", "");
-            using (SqlConnection sqlconnection = new SqlConnection(conString))
+            using (SqlConnection sqlconnection = new SqlConnection(GHConString))
             {
-                FeedbackBaseService service = new FeedbackBaseService(sqlconnection);
-                List<tp_carCraft> carCraftList = service.GetInfo(chrBatchID);
-                if (WorkProcedure.Contains("流延") || WorkProcedure.Contains("丝印") || WorkProcedure.Contains("新工艺"))
+                try
                 {
-                    List<tp_carCraft> decObj = service.GetInfo(chrBatchID);
-                    if (carCraftList.Count>0)
+                    FeedbackBaseService service = new FeedbackBaseService(sqlconnection);
+                    List<tp_carCraft> carCraftList = new List<tp_carCraft>();
+                    if (WorkProcedure.Contains("流延") || WorkProcedure.Contains("丝印")
+                        || WorkProcedure.Contains("新工艺")|| WorkProcedure=="")
                     {
-                        carCraftList[0].intChipAmount = decObj != null ? decObj.FirstOrDefault().intChipAmount :"0";
+                        carCraftList = service.GetInfo(chrBatchID);
                     }
+                    else
+                    {
+                        carCraftList = service.GetInfo(chrBatchID);
+                        RateTotal.tm_dTempStoreIO obj = new RateTotal.tm_dTempStoreIO();
+                        obj = service.GetTempStoreAmount(chrBatchID, WorkProcedure);
+                        if(carCraftList.Count>0)
+                        {
+                            carCraftList[0].intChipAmount = obj != null ? Convert.ToInt64(obj.decSumQty).ToString() : "0";
+                        }
+                    }
+                    return carCraftList;
                 }
-                return carCraftList;
-
-                #region =====交接工序的批号相关信息=====
-                //string WorkProcedure = "";
-
-
-                #endregion
+                catch (Exception ex)
+                {
+                    string message = ex.Message;
+                    throw;
+                }
+               
             }
         }
 

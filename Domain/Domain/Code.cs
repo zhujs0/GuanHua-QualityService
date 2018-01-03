@@ -32,5 +32,24 @@ namespace Domain
         public string TopClass { get; set; }
         public string TopClassCode { get; set; }
         public string ProblemLevel { get; set; }
+
+        public string EmployeeID { get; set; }
+        public string Employee { get; set; }
+        public string CreateTime
+        {
+            get;set;
+            //get
+            //{
+            //    return DateTime.Now.ToString("YYYY-MM-DD HH: mm");
+            //}
+            //set
+            //{
+            //    if(value!=null&&value!="")
+            //    {
+            //        CreateTime = Convert.ToDateTime(value).ToString("YYYY-MM-DD HH:mm");
+            //    }
+               
+            //}
+        }
     }
 }

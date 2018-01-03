@@ -1,0 +1,9 @@
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bin\Debug\netcoreapp2.0\Domain.deps.json
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bin\Debug\netcoreapp2.0\Domain.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bin\Debug\netcoreapp2.0\Domain.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp2.0\Domain.csproj.CoreCompileInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp2.0\Domain.AssemblyInfoInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp2.0\Domain.AssemblyInfo.cs
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp2.0\Domain.dll
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp2.0\Domain.pdb
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Debug\netcoreapp2.0\Domain.csprojResolveAssemblyReference.cache

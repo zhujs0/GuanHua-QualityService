@@ -4,4 +4,5 @@ E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\bi
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Release\netcoreapp1.1\Domain.AssemblyInfo.cs
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Release\netcoreapp1.1\Domain.dll
 E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Release\netcoreapp1.1\Domain.pdb
-E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Release\netcoreapp1.1\Domain.csprojResolveAssemblyReference.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Release\netcoreapp1.1\Domain.csproj.CoreCompileInputs.cache
+E:\GhSystem-冠华系统\NewQuality-质量管理系统服务端\Domain\Domain\obj\Release\netcoreapp1.1\Domain.AssemblyInfoInputs.cache

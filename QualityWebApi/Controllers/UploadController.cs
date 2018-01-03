@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Microsoft.Net.Http.Headers;
 using QualityWebApi.Common;
+using Microsoft.Extensions.Configuration;
 
 namespace QualityWebApi.Controllers
 {
@@ -15,21 +16,25 @@ namespace QualityWebApi.Controllers
     public class UploadController : Controller
     {
         private string path = Directory.GetCurrentDirectory() + "/ProblemPicture/";
+        private string GHConString = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("host.json", optional: true).Build().GetSection("urls").Value;
         [HttpPost]
         public string Post()
         {
 
             var files = HttpContext.Request.Form.Files;
+            var FilePath = "";
             if (files.Count > 0)
             {
                 for (int i = 0; i < files.Count; i++)
                 {
                     var file = HttpContext.Request.Form.Files[0];
-
-                    var filename = ContentDispositionHeaderValue
-                              .Parse(file.ContentDisposition)
-                              .FileName
-                              .Trim('"');
+                    var filename = file.FileName;
+                    //var filename = ContentDispositionHeaderValue
+                    //          .Parse(file.ContentDisposition)
+                    //          .FileName
+                    //          .Trim();
                     long size = file.Length;
                     //string houzhui = filename.Substring(filename.IndexOf("."));
                     string filePath = path + filename;
@@ -38,10 +43,11 @@ namespace QualityWebApi.Controllers
                         file.CopyTo(fs);
                         fs.Flush();
                     }
+                    FilePath = GHConString + "/ProblemPicture/" + filename;
                 }
             }
 
-            return "http://192.168.1.33:8000/ProblemPicture/t0176ee418172932841.jpg";
+            return FilePath;
 
         }
 

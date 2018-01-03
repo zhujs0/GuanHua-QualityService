@@ -20,6 +20,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
 
+
 namespace QualityWebApi
 {
     public class Startup
@@ -76,6 +77,7 @@ namespace QualityWebApi
                 });
             });
 
+            services.AddTimedJob();
             services.AddMvc();
         }
 
@@ -133,6 +135,8 @@ namespace QualityWebApi
                 configurePolicy.AllowAnyHeader();
                 configurePolicy.AllowAnyMethod();
             });
+
+            app.UseTimedJob();
 
             app.UseMvc();
         }

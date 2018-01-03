@@ -42,5 +42,44 @@
             <param name="BatchNo">批号</param>
             <returns></returns>
         </member>
+        <member name="M:QualityWebApi.Controllers.RateTotalController.GetData(System.DateTime,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.Decimal,System.Boolean,System.Data.SqlClient.SqlConnection)">
+            <summary>
+            
+            </summary>
+            <param name="StartTime"></param>
+            <param name="EndTime"></param>
+            <param name="ChrItemID"></param>
+            <param name="ChrSize"></param>
+            <param name="ChrClass"></param>
+            <param name="ChrPorcelain"></param>
+            <param name="SizeMark"></param>
+            <param name="LastMonthCheck"></param>
+            <param name="IsMonth"></param>
+            <param name="con"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QualityWebApi.Controllers.RateTotalController.Set_ExtendSql(System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ChrItemID">型号规格</param>
+            <param name="ChrSize">尺寸</param>
+            <param name="ChrClass">Y/B/N</param>
+            <param name="ChrPorcelain">瓷粉</param>
+            <param name="SizeMark">尺寸比较符号</param>
+            <param name="ExtendSql_Type">Sql类型，1：成品仓入库；2：借用出入库；3：投料数；4：流通库存;</param>
+            <param name="ChrType">
+            当ExtendSql_Type=1时，ChrType表示‘成品仓入库’正品/非命中品入库；
+            当ExtendSql_Type=2时，ChrType表示‘借用出入库’次品转正品/非命中转正品；
+            </param>
+            <param name="ChrParentProcId">表示‘流通库存’当前产品所在工序</param>
+            <param name="ChrProcessID">表示‘流通库存’产品所在前工序</param>
+            <returns></returns>
+        </member>
+        <member name="T:QualityWebApi.Controllers.RateTotalController.AmountData">
+            <summary>
+            
+            </summary>
+        </member>
     </members>
 </doc>

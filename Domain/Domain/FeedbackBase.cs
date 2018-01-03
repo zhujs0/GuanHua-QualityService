@@ -37,5 +37,8 @@ namespace Domain
         public int PrevStatus { get; set; }
 
         public string IsControl { get; set; }
+
+        public string ImageList { get; set; }
+        public string ImageHtml { get; set; }
     }
 }
